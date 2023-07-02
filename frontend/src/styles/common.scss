@@ -1,0 +1,31 @@
+@use "sass:math";
+// Минимальная ширина страницы
+$minWidth: 320;
+// Ширина полотна (макета)
+$maxWidth: 1920;
+// Ширина ограничивающего контейнера (0 = нет ограничения)
+$maxWidthContainer: 1560;
+// x2
+$containerPadding: 15;
+// Ширина срабатывания первого брейкпоинта
+$containerWidth: $maxWidthContainer + $containerPadding + $containerPadding;
+
+@import '../templates/mixins';
+@import '../templates/header.scss';
+
+
+[class*=__container] {
+    max-width: $containerWidth + px;
+    margin: 0 auto;
+    padding-right: $containerPadding + px;
+    ;
+    padding-left: $containerPadding + px;
+    ;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat:regular,500,600,700,800,900);
+
+body {
+    font-family: 'Montserrat';
+}
+
