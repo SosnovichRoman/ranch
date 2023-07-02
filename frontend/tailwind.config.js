@@ -7,11 +7,17 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors :{
+        primary: '#ACD25F',
+        unactive: '#303030',
+        'dark-section': '#444141',
       },
+      backgroundImage: {
+        'grey-noise': "url('/img/grey-noise.png')",
+      },
+      boxShadow: {
+        'card-shadow': '2px 2px 10px 0px rgba(0, 0, 0, 0.20)'
+      }
     },
   },
   plugins: [],

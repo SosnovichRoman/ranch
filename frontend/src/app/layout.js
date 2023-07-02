@@ -1,3 +1,6 @@
+'use client'
+import Header from '@/components/Header/Header'
+import Footer from '@/components/Footer/Footer'
 import './globals.css'
 import style from '@/styles/common.scss'
 
@@ -9,7 +12,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

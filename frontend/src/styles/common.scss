@@ -4,7 +4,7 @@ $minWidth: 320;
 // Ширина полотна (макета)
 $maxWidth: 1920;
 // Ширина ограничивающего контейнера (0 = нет ограничения)
-$maxWidthContainer: 1560;
+$maxWidthContainer: 1350;
 // x2
 $containerPadding: 15;
 // Ширина срабатывания первого брейкпоинта
@@ -12,6 +12,8 @@ $containerWidth: $maxWidthContainer + $containerPadding + $containerPadding;
 
 @import '../templates/mixins';
 @import '../templates/header.scss';
+
+$primaryColor: #ACD25F;
 
 
 [class*=__container] {
@@ -29,3 +31,63 @@ body {
     font-family: 'Montserrat';
 }
 
+.heading-1 {
+    font-size: 72px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 100%;
+}
+
+.heading-2 {
+    font-size: 40px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+.heading-3 {
+    font-size: 28px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+.heading-4 {
+    font-size: 20px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 125%;
+}
+
+.default-text {
+    font-size: 20px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+.description-text {
+    font-size: 16px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%;
+}
+
+.button-green {
+    padding: 1rem 2rem;
+    display: inline-flex;
+    font-size: 16px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background-color: $primaryColor;
+    border-radius: 999px;
+    color: white;
+}
