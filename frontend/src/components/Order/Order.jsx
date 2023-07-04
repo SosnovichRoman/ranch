@@ -7,7 +7,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 const Order = ({ className }) => {
 
     return (
-        <div className={`p-10 border-primary border-4 border-solid min-mx-[15px]  max-w-[1200px] mx-auto ${className} `}>
+        <div className={`p-10 border-primary border-4 border-solid min-mx-[15px]  max-w-[1200px] mx-auto ${className} rounded-3xl bg-white`}>
             <div className='space-y-10 max-w-[800px] mx-auto flex flex-col items-center'>
                 <h2 className='heading-2 text-center'>Оставьте заявку</h2>
                 <p className='default-text text-unactive text-center max-w-[800px] mx-auto'>

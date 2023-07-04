@@ -124,11 +124,11 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className=''>
+            {/* <section className=''>
                 <div className='__container'>
                     <Order />
                 </div>
-            </section>
+            </section> */}
         </main>
     )
 }
