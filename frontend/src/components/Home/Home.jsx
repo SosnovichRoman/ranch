@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import Service from './Service'
+import Order from '../Order/Order';
 
 const Home = () => {
 
@@ -57,7 +59,7 @@ const Home = () => {
                 <div className='__container py-20'>
                     <h2 className='heading-2'>Наши услуги</h2>
                     <div className='mt-10 grid grid-cols-4 gap-[30px]'>
-                        {services.map((service) => <Service service={service} />)}
+                        {services.map((service) => <Service service={service} key={service?.id} />)}
                     </div>
                 </div>
             </section>
@@ -120,6 +122,11 @@ const Home = () => {
                         </div>
                         <img src='img/home/map.png' className='h-[550px] shadow-card-shadow' />
                     </div>
+                </div>
+            </section>
+            <section className=''>
+                <div className='__container'>
+                    <Order />
                 </div>
             </section>
         </main>

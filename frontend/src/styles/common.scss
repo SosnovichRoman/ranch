@@ -14,6 +14,7 @@ $containerWidth: $maxWidthContainer + $containerPadding + $containerPadding;
 @import '../templates/header.scss';
 
 $primaryColor: #ACD25F;
+$inputColor: #999;
 
 
 [class*=__container] {
@@ -90,4 +91,18 @@ body {
     background-color: $primaryColor;
     border-radius: 999px;
     color: white;
+}
+
+.input{
+    display: flex;
+    padding: 10px 20px;
+    border: 2px solid $inputColor;
+    border-radius: 8px;
+
+    &::placeholder{
+        color: $inputColor;
+    }
+    &:focus{
+        border: 2px solid black;
+    }
 }

@@ -1,0 +1,9 @@
+.ant-picker-input input{
+    font-size: 16px !important;
+    &::placeholder{
+        color: #999 !important;
+    }
+}
+.ant-picker-focused {
+    box-shadow: none;
+}

@@ -3,6 +3,7 @@ import Header from '@/components/Header/Header'
 import Footer from '@/components/Footer/Footer'
 import './globals.css'
 import style from '@/styles/common.scss'
+import { ChakraProvider } from '@chakra-ui/react'
 
 export const metadata = {
   title: 'Create Next App',
@@ -14,7 +15,9 @@ export default function RootLayout({ children }) {
     <html>
       <body>
         <Header />
-        {children}
+        <ChakraProvider>
+          {children}
+        </ChakraProvider>
         <Footer />
       </body>
     </html>
