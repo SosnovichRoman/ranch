@@ -1,7 +1,7 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Service from './Service'
-import Order from '../Order/Order';
+import Order from '../Order/Order'
 
 const Home = () => {
 
@@ -38,7 +38,7 @@ const Home = () => {
             link: '',
             buttonText: 'Оставить заявку',
         }
-    ]
+    ]  
 
     return (
         <main>

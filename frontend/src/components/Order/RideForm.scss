@@ -6,4 +6,9 @@
 }
 .ant-picker-focused {
     box-shadow: none;
+    // position: relative;
+}
+
+.ant-picker-dropdown{
+    z-index: 2000;
 }

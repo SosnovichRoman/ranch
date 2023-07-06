@@ -6,13 +6,17 @@ const Service = ({ service }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
+  const handleCloseModal = () => {
+    onClose()
+  }
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent maxWidth={'800px'} mx={'15px'} bg={'transparent'}>
         <ModalCloseButton top={3} right={3} />
-          <Order />
+          <Order handleCloseModal={handleCloseModal} />
         </ModalContent>
       </Modal>
       <div className='bg-white shadow-card-shadow'>

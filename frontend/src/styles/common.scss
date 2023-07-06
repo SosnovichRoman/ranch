@@ -98,11 +98,24 @@ body {
     padding: 10px 20px;
     border: 2px solid $inputColor;
     border-radius: 8px;
+    // font-weight: 500;
 
     &::placeholder{
         color: $inputColor;
+        // font-weight: 400;
     }
     &:focus{
         border: 2px solid black;
+    }
+    &:disabled{
+        background-color: #eeeeee;
+    }
+}
+
+option{
+    //background-color: #eeeeee;
+    font-weight: 500;
+    &:disabled{
+        font-weight: 400;
     }
 }

@@ -4,7 +4,7 @@ import HouseForm from './HouseForm';
 import RideForm from './RideForm';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 
-const Order = ({ className }) => {
+const Order = ({ className, handleCloseModal }) => {
 
     return (
         <div className={`p-10 border-primary border-4 border-solid min-mx-[15px]  max-w-[1200px] mx-auto ${className} rounded-3xl bg-white`}>
@@ -21,10 +21,10 @@ const Order = ({ className }) => {
                     </TabList>
                     <TabPanels>
                         <TabPanel p={0}>
-                            <RideForm />
+                            <RideForm handleCloseModal={handleCloseModal} />
                         </TabPanel>
                         <TabPanel p={0}>
-                            <HouseForm />
+                            <HouseForm handleCloseModal={handleCloseModal} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
