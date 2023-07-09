@@ -32,8 +32,12 @@ export default {
         {
             name: 'startTime',
             title: 'Start Time',
-            type: 'reference',
-            to: [{ type: 'rideHours' }]
+            type: 'number',
+        },
+        {
+            name: 'endTime',
+            title: 'End Time',
+            type: 'number',
         },
         {
             name: 'duration',

@@ -13,9 +13,39 @@ export default {
             title: 'Busy Hours',
             type: 'array',
             of: [{
-                type: 'reference',
-                to: [{ type: 'rideHours' }]
+                type: 'object',
+                name: 'busyInterval',
+                fields: [
+                    {
+                        name: 'startTime',
+                        type: 'number'
+                    },
+                    {
+                        name: 'endTime',
+                        type: 'number'
+                    },
+                ]
+                
             }]
-        }
+        },
+        {
+            name: 'dayStart',
+            title: 'Day Start',
+            type: 'number',
+        },
+        {
+            name: 'dayEnd',
+            title: 'Day End',
+            type: 'number',
+        },
+        // {
+        //     name: 'busyHours',
+        //     title: 'Busy Hours',
+        //     type: 'array',
+        //     of: [{
+        //         type: 'reference',
+        //         to: [{ type: 'rideHours' }]
+        //     }]
+        // }
     ]
 }

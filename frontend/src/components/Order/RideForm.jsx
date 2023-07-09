@@ -8,7 +8,7 @@ import locale from 'antd/locale/ru_RU';
 import './RideForm.scss'
 import { Select, useToast } from '@chakra-ui/react'
 import client from '../SanityClient/client';
-import { rideDurationsListQuery, rideTypesQuery, rideHoursQuery } from '../Data/data';
+import { rideDurationsListQuery, rideTypesQuery, rideHoursQuery, isRideIntervalFreeQuery } from '../Data/data';
 
 const RideForm = ({ handleCloseModal }) => {
 
@@ -31,6 +31,7 @@ const RideForm = ({ handleCloseModal }) => {
 
     useEffect(() => {
         client.fetch(rideTypesQuery).then((data) => { setRideTypesList(data); setRideType(data[0]?._id) })
+        // client.fetch(rideDurationsListQuery).then((data) => setRideDurationsList(data))
     }, [])
 
 
@@ -45,36 +46,78 @@ const RideForm = ({ handleCloseModal }) => {
         setDate(dateString);
         setStartTime('');
         setStartTimeDisabled(true);
-        if (date != '') client.fetch(rideHoursQuery(dateString)).then((data) => { setRideHoursList(data); setStartTimeDisabled(false) });
+        if (dateString != '') client.fetch(rideHoursQuery(dateString)).then((data) => { setRideHoursList(data); setStartTimeDisabled(false) });
     }
 
     //on start time change
     useEffect(() => {
+
+        setDurationDisabled(true)
+        if(startTime != '') fetchRideDurations();
+        
+
+        //console.log('rd', rideDurations)
+        // setRideDurationsList(rideDurations)
+        // setDurationDisabled(false)
+
+
+
+        // let rideDurations = data?.map(async (rideDuration) => {
+        //     let resp = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
+        //     console.log(resp)
+        //     return {
+        //         ...rideDuration,
+        //         free: resp[0]?.free
+        //     }
+        // })
+
+        // client.fetch(rideDurationsListQuery).then((data) => {
+        //     data.map((rideDuration) => {
+
+        //     })
+        // })
+
+
+        // if (startTime != '') {
+        //     client.fetch(rideDurationsListQuery).then((data) => {
+        //         let tempArray = []
+        //         //Необходимо определить, доступна ли прогулка на каждую длительность
+        //         for (let i = 0; i < data.length; i++) {
+        //             let element = data[i];
+        //             element.busy = false; // by default you can choose any duration
+        //             let endTime = Number(startTime) + Number(element?.duration);
+
+        //             //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
+        //             rideHoursList.forEach(rideHour => {
+        //                 if (rideHour?.hour > startTime && rideHour?.hour < endTime && rideHour.busy //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
+        //                     || endTime > rideHoursList[rideHoursList?.length - 1]?.hour + 1) { // Или занятие оканчивается после последнего часа
+        //                     element.busy = true;
+        //                 }
+        //             });
+        //             tempArray.push(element)
+        //         }
+        //         setRideDurationsList(tempArray);
+        //         setDurationDisabled(false)
+        //     })
+        // }
+    }, [startTime])
+
+    async function fetchRideDurations() {
         setDuration('')
         setDurationDisabled(true)
-        if (startTime != '') {
-            client.fetch(rideDurationsListQuery).then((data) => {
-                let tempArray = []
-                //Необходимо определить, доступна ли прогулка на каждую длительность
-                for (let i = 0; i < data.length; i++) {
-                    let element = data[i];
-                    element.busy = false; // by default you can choose any duration
-                    let endTime = Number(startTime) + Number(element?.duration);
+        const listData = await client.fetch(rideDurationsListQuery)
 
-                    //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
-                    rideHoursList.forEach(rideHour => {
-                        if (rideHour?.hour > startTime && rideHour?.hour < endTime && rideHour.busy //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
-                            || endTime > rideHoursList[rideHoursList?.length - 1]?.hour + 1) { // Или занятие оканчивается после последнего часа
-                            element.busy = true;
-                        }
-                    });
-                    tempArray.push(element)
-                }
-                setRideDurationsList(tempArray);
-                setDurationDisabled(false)
-            })
-        }
-    }, [startTime])
+        let rideDurations = await Promise.all(listData?.map(async (rideDuration) => {
+            let resp = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
+            return {
+                ...rideDuration,
+                free: resp?.free
+            }
+        }))
+        console.log(rideDurations)
+        setRideDurationsList(rideDurations)
+        setDurationDisabled(false)
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -89,9 +132,8 @@ const RideForm = ({ handleCloseModal }) => {
                     _ref: rideType
                 },
                 "date": date,
-                "startTime": {
-                    _ref: rideHoursList.find((obj) => obj?.hour == startTime)?._id
-                },
+                "startTime": Number(startTime),
+                "endTime":  Number(startTime) + Number(duration),
                 "duration": {
                     _ref: rideDurationsList.find((obj) => obj?.duration == duration)?._id
                 },
@@ -180,7 +222,7 @@ const RideForm = ({ handleCloseModal }) => {
                                 w='full'
                                 sx={{ pl: '20px', pr: '32px', py: '10px', fontSize: '16px', lineHeight: '125%', h: 'fit-content' }}>
                                 <option value="" selected disabled hidden className='truncate'>Выберите время</option>
-                                {rideHoursList?.map((hour) => <option value={hour?.hour} key={hour?._id} disabled={hour?.busy}>{hour.hour + ':00'}</option>)}
+                                {rideHoursList?.map((hour) => <option value={hour?.startTime} key={hour?._id} disabled={!hour?.free}>{hour.name}</option>)}
                             </Select>
                         </label>
                         <label className='description-text'>
@@ -196,7 +238,7 @@ const RideForm = ({ handleCloseModal }) => {
                                 sx={{ px: '20px', pr: '32px', py: '10px', fontSize: '16px', lineHeight: '125%', h: 'fit-content' }}>
                                 <option value="" selected disabled hidden className='truncate'>Выберите длительность</option>
                                 {rideDurationsList?.map((rideDuration) =>
-                                    <option value={rideDuration?.duration} key={rideDuration?._id} disabled={rideDuration?.busy}>
+                                    <option value={rideDuration?.duration} key={rideDuration?._id} disabled={!rideDuration?.free}>
                                         {rideDuration?.name}
                                     </option>)}
                             </Select>

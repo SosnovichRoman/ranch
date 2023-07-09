@@ -4,8 +4,18 @@ export default {
     type: 'document',
     fields: [
         {
-            name: 'hour',
-            title: 'Hour (number e.g. 11)',
+            name: 'name',
+            title: 'Name of  (number e.g. 11:30)',
+            type: 'string',
+        },
+        {
+            name: 'startTime',
+            title: 'Start Time (number e.g. 11.5)',
+            type: 'number',
+        },
+        {
+            name: 'endTime',
+            title: 'End Time (number e.g. 12)',
             type: 'number',
         },
     ]
