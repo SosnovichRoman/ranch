@@ -2,7 +2,8 @@
   "expo": {
     "scheme": "acme",
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "build": { "babel": { "include": [ "@ui-kitten/components" ] } }
     },
     "name": "mobile",
     "slug": "mobile"
