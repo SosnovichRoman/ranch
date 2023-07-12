@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
-import { View, Text, Button, SafeAreaView, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native"
-import { Link } from "expo-router"
+import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native"
 import client from "../components/SanityClient/client"
 import { rideTypesQuery } from "../utils/data"
-import LoginStyles from "../styles/LoginStyles"
+import { Button, Input, Text } from "@ui-kitten/components"
 
 const LoginScreen = () => {
 
@@ -14,9 +13,9 @@ const LoginScreen = () => {
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
 
-    const submitHandler = () =>{
-        if(login == '' || password == '') alert('Заполните все поля')
-        else{
+    const submitHandler = () => {
+        if (login == '' || password == '') alert('Заполните все поля')
+        else {
             console.log({
                 login,
                 password
@@ -25,24 +24,56 @@ const LoginScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-            <ScrollView style={{paddingHorizontal: 15}}>
-                    <View>
-                        <View>
-                            <Text style={LoginStyles.label}>Логин</Text>
-                            <TextInput value={login} onChangeText={(text) => setLogin(text)} style={LoginStyles.input} placeholder="Введите логин" />
-                        </View>
-                        <View>
-                            <Text style={LoginStyles.label}>Пароль</Text>
-                            <TextInput value={password} onChangeText={(text) => setPassword(text)} style={LoginStyles.input} placeholder="Введите пароль" />
-                        </View>
-                        <TouchableOpacity style={LoginStyles.button} onPress={submitHandler}>
-                            <Text>Войти</Text>
-                        </TouchableOpacity>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView style={styles.container}>
+                <View style={styles.form}>
+                    <Text style={styles.title}>Вход</Text>
+                    <View style={styles.inputBox}>
+                        <Text category="s1">Логин</Text>
+                        <Input
+                            placeholder='Введите логин'
+                            value={login}
+                            onChangeText={newLogin => setLogin(newLogin)}
+                        />
                     </View>
+                    <View style={styles.inputBox}>
+                        <Text category="s1">Пароль</Text>
+                        <Input
+                            placeholder='Введите пароль'
+                            value={password}
+                            onChangeText={newPassword => setPassword(newPassword)}
+                        />
+                    </View>
+                    <Button style={{marginTop: 10}}>
+                        Войти
+                    </Button>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        paddingHorizontal: 15,
+    },
+    form: {
+        flex: 1,
+        width: '100%',
+        gap: 20,
+        alignItems: "center",
+        justifyContent: 'center',
+        paddingVertical: 20
+    },
+    inputBox: {
+        gap: 8
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 600
+    }
+})
 
 export default LoginScreen
