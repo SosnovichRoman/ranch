@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native"
 import client from "../components/SanityClient/client"
-import { rideTypesQuery } from "../utils/data"
+import { loginQuery, rideTypesQuery } from "../utils/data"
 import { Button, Input, Text } from "@ui-kitten/components"
+import { Toast } from "react-native-toast-message/lib/src/Toast"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
 
@@ -14,14 +16,44 @@ const LoginScreen = () => {
     const [password, setPassword] = useState('')
 
     const submitHandler = () => {
-        if (login == '' || password == '') alert('Заполните все поля')
-        else {
-            console.log({
-                login,
-                password
+        if (login == '' || password == '') {
+            Toast.show({
+                type: 'error',
+                text1: 'Заполните все поля',
             })
+        } else {
+            client.fetch(loginQuery(login, password))
+                .then((data) => {
+                    console.log(data);
+                    storeData(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Не удалось войти',
+                    })
+                })
         }
     }
+
+    const storeData = async (value) => {
+        try {
+            const jsonValue = JSON.stringify(value);
+            await AsyncStorage.setItem('user', jsonValue);
+            Toast.show({
+                type: 'success',
+                text1: 'Успешный вход',
+            })
+        } catch (e) {
+            console.log(e)
+            Toast.show({
+                type: 'error',
+                text1: 'Ошибка',
+                text2: 'Не удалось сохранить данные пользователя. Обратитесь к разработчику.'
+            })
+        }
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -44,7 +76,7 @@ const LoginScreen = () => {
                             onChangeText={newPassword => setPassword(newPassword)}
                         />
                     </View>
-                    <Button style={{marginTop: 10}}>
+                    <Button style={{ marginTop: 10 }} onPress={submitHandler}>
                         Войти
                     </Button>
                 </View>

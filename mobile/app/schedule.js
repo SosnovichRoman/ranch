@@ -1,88 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "expo-router"
-import { View, Button, SafeAreaView, ScrollView } from "react-native"
-import { ScreenStackHeaderConfig } from "react-native-screens"
+import { View, Button, SafeAreaView } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Layout, Text, ViewPager, TabBar, Tab, Divider } from '@ui-kitten/components';
-import { primaryGreen } from "../constants/colors";
-import ScheduleRecord from "../components/Schedule/ScheduleRecord";
+import { readUser } from "../utils/userStorage";
+import client from "../components/SanityClient/client";
+import { scheduleQuery } from "../utils/data";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
+import dayjs from "dayjs";
+import ScheduleList from "../components/Schedule/ScheduleList";
 
 
 const HomeScreen = () => {
 
-    const tabs = [
-        {
-            id: '1',
-            tabName: 'first',
-            tabContent: 'first tab'
-        },
-        {
-            id: '2',
-            tabName: 'second',
-            tabContent: 'second tab'
-        },
-        {
-            id: '3',
-            tabName: 'third',
-            tabContent: 'third tab'
-        },
-        {
-            id: '4',
-            tabName: 'fourth',
-            tabContent: 'fourth tab'
-        },
-        {
-            id: '5',
-            tabName: 'fifth',
-            tabContent: 'fifth tab'
-        },
-        {
-            id: '6',
-            tabName: 'sixth',
-            tabContent: 'sixth tab'
-        },
-        {
-            id: '7',
-            tabName: 'seventh',
-            tabContent: 'seventh tab'
-        },
-        {
-            id: '1',
-            tabName: 'first',
-            tabContent: 'first tab'
-        },
-        {
-            id: '2',
-            tabName: 'second',
-            tabContent: 'second tab'
-        },
-        {
-            id: '3',
-            tabName: 'third',
-            tabContent: 'third tab'
-        },
-        {
-            id: '4',
-            tabName: 'fourth',
-            tabContent: 'fourth tab'
-        },
-        {
-            id: '5',
-            tabName: 'fifth',
-            tabContent: 'fifth tab'
-        },
-        {
-            id: '6',
-            tabName: 'sixth',
-            tabContent: 'sixth tab'
-        },
-        {
-            id: '7',
-            tabName: 'seventh',
-            tabContent: 'seventh tab'
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [user, setUser] = useState();
+    const [schedule, setSchedule] = useState();
+    const dates = datesInRange(dayjs(), 30);
+
+    useEffect(() => {
+        readUser().then((data) => {
+            if (!data) {
+                return (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 15 }}>
+                        <Text category="s1">Выполните вход в аккаунт.</Text>
+                    </View>
+                )
+            }
+            else setUser(data);
+        })
+    }, [])
+
+    useEffect(() => {
+        if (user) fetchSchedule();
+    }, [user])
+
+
+    const fetchSchedule = () => {
+
+        client.fetch(scheduleQuery(user?._id))
+            .then((data) => {
+                setSchedule(data);
+                console.log(data)
+            })
+            .catch((err) => {
+                console.log(err);
+                Toast.show({
+                    type: 'error',
+                    text1: 'Не удалось загрузить расписание'
+                });
+            })
+    }
+
+    function datesInRange(startDate, daysCount) {
+        let date = startDate;
+        let dateArray = [];
+        for (let i = 0; i < daysCount; i++) {
+            dateArray.push(date);
+            date = date.add(1, 'day');
         }
-    ]
-    const [selectedIndex, setSelectedIndex] = useState(0)
+
+        return dateArray;
+    }
 
     return (
 
@@ -92,15 +71,14 @@ const HomeScreen = () => {
                 selectedIndex={selectedIndex}
                 onSelect={index => setSelectedIndex(index)}
             >
-                {tabs.map((tab) =>
-                    <ScrollView style={{ flex: 1 }}>
+                {dates?.map((date) =>
+                    <View style={{ flex: 1 }}>
                         <View style={styles.tabHeader}>
-                            <Text style={styles.tabTitle}>{tab.tabName}</Text>
+                            <Text style={styles.tabTitle}>{date.format('DD.MM.YYYY')}</Text>
                             <Divider style={styles.headerDivider} />
                         </View>
-                        <ScheduleRecord />
-                        <Divider />
-                    </ScrollView>
+                        <ScheduleList date={date} schedule={schedule} />
+                    </View>
                 )}
             </ViewPager>
         </SafeAreaView>
@@ -128,7 +106,7 @@ const styles = StyleSheet.create({
     },
     headerDivider: {
         width: '100%',
-    }
+    },
 });
 
 

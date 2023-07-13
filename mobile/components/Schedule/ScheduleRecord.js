@@ -1,25 +1,33 @@
 import { View } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Divider, Text } from "@ui-kitten/components";
-import { dividerColor } from "../../constants/colors";
+import { dividerDarkColor, dividerDefaultColor } from "../../constants/colors";
+import { Link } from "expo-router";
 
-const ScheduleRecord = () => {
-  return (
-    <View style={styles.container}>
-        
-        <View style={styles.timeSection}>
-            <Text style={styles.timeDate} category="s1">10-05-2023</Text>
-            <Text style={styles.timeTimeText}>10:00</Text>
-            <Divider style={styles.timeDivider} />
-            <Text style={styles.timeTimeText}>11:00</Text>
-        </View>
-        <View style={styles.infoSection}>
-            <Text style={styles.rideType}>Тренировка</Text>
-            <Text>ФИО: <Text category="s1">Соснович Роман Олегович</Text></Text>
-            <Text>Количество персон: <Text category="s1">3</Text></Text>
-        </View>
-    </View>
-  )
+const ScheduleRecord = ({ showDate, record }) => {
+    console.log(record)
+    return (
+        <Link href={`/rideActivity/${record._id}`} style={{display: 'flex', flexDirection: 'column'}}>
+
+                <View style={styles.container}>
+
+                    <View style={styles.timeSection}>
+                        {/* {showDate && <Text style={styles.timeDate} category="s1">{record?.date}</Text>} */}
+                        <Text style={styles.timeTimeText}>{record?.startTime + ':00'}</Text>
+                        <Divider style={styles.timeDivider} />
+                        <Text style={styles.timeTimeText}>{record?.endTime + ':00'}</Text>
+                    </View>
+                    <View style={styles.infoSection}>
+                        <Text style={styles.rideType}>{record?.rideType.name}</Text>
+                        <Text>ФИО: <Text category="s1">{record?.clientName}</Text></Text>
+                        <Text>Количество персон: <Text category="s1">{record?.personCount}</Text></Text>
+                    </View>
+                </View>
+                <Divider style={styles.bottomDivider} />
+
+
+        </Link>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -28,8 +36,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     timeSection: {
+        flexBasis: '20%',
+        flexShrink: 0,
         padding: 15,
         alignItems: 'center',
+        justifyContent: 'center'
     },
     timeDate: {
         marginBottom: 10
@@ -42,7 +53,7 @@ const styles = StyleSheet.create({
     },
     infoSection: {
         borderLeftWidth: 1,
-        borderLeftColor: dividerColor,
+        borderLeftColor: dividerDefaultColor,
         borderStyle: 'solid',
         flex: 1,
         height: '100%',
@@ -52,6 +63,12 @@ const styles = StyleSheet.create({
     rideType: {
         fontSize: 18,
         fontWeight: 600
+    },
+    bottomDivider: {
+        width: '100%',
+        alignSelf: 'stretch',
+        height: 2,
+        backgroundColor: dividerDarkColor
     }
 });
 

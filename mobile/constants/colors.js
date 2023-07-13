@@ -1,4 +1,5 @@
 const primaryGreen = '#ACD25F';
-const dividerColor = '#edf1f7'
+const dividerDarkColor = '#edf1f7'
+const dividerDefaultColor = '#dfdfdf'
 
-export { primaryGreen, dividerColor }
+export { primaryGreen, dividerDarkColor, dividerDefaultColor }
