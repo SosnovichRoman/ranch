@@ -8,10 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
 
-    useEffect(() => {
-        client.fetch(rideTypesQuery).then((data) => console.log(data)).catch((err) => console.log('err', err))
-    }, [])
-
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
 
@@ -24,8 +20,14 @@ const LoginScreen = () => {
         } else {
             client.fetch(loginQuery(login, password))
                 .then((data) => {
+                    if(data){
+                        storeData(data);
+                    }
+                    else Toast.show({
+                        type: 'error',
+                        text1: 'Не удалось войти',
+                    })
                     console.log(data);
-                    storeData(data);
                 })
                 .catch((err) => {
                     console.log(err);

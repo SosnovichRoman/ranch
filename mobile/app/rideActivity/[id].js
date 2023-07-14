@@ -4,59 +4,57 @@ import { StyleSheet } from 'react-native';
 import { Divider, Input, Select, SelectItem, Text, IndexPath, Datepicker, Toggle } from "@ui-kitten/components";
 import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
 import client from "../../components/SanityClient/client";
-import { rideActivityQuery } from "../../utils/data";
+import { rideActivityQuery, rideDurationsListQuery, rideTypesQuery } from "../../utils/data";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
-const rideActivity = ({}) => {
-    const params  = useLocalSearchParams();
-    const [rideActivity, setRideActivity] = useState()
+const rideActivity = ({ }) => {
+    const params = useLocalSearchParams();
+    const [fetchingError, setFetchingError] = useState(false)
+    const [rideActivity, setRideActivity] = useState();
+    const [rideTypesList, setRideTypesList] = useState();
+    const [rideDurationsList, setRideDurationsList] = useState();
 
     const [fio, setFio] = useState('');
     const [phone, setPhone] = useState('');
     const [count, setCount] = useState('');
-    // const [selectedIndexRideType, setSelectedIndexRideType] = useState(new IndexPath(0));
-    // const [selectedIndexDuration, setSelectedIndexDuration] = useState(new IndexPath(0));
+    const [selectedIndexRideType, setSelectedIndexRideType] = useState(new IndexPath(0));
+    const [selectedIndexRideDuration, setSelectedIndexRideDuration] = useState(new IndexPath(0));
 
 
     useEffect(() => {
-        client.fetch(rideActivityQuery(params.id))
-        .then((data) => {
-            console.log(data)
-            if(data?.length == 0 || !data){
-                return(
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text>Не удалось загрузить информацию</Text>
-                    </View>
-                )
-            }
-            else {
-                setRideActivity(data);
-                setFields(data);
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-            Toast.show({
-                type: 'error',
-                text1: 'Ошибка загрузки'
-            })
-            return(
-                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text>Не удалось загрузить информацию</Text>
-                </View>
-            )
-        })
+        fetchData();
     }, [])
+
+    const fetchData = async () => {
+        try {
+            setRideTypesList(await client.fetch(rideTypesQuery));
+            setRideDurationsList(await client.fetch(rideDurationsListQuery));
+            const fetchedRideActivity = await client.fetch(rideActivityQuery(params.id));
+            if(!fetchedRideActivity) setFetchingError(true);
+            else {
+                setRideActivity(fetchedRideActivity);
+                setFields(fetchedRideActivity);
+            } 
+        } catch (error) {
+            setFetchingError(true);
+        }
+
+    }
 
     const setFields = (data) => {
         setFio(data?.clientName);
         setPhone(data?.clientPhone);
         setCount(data?.clietCount);
     }
-    
+
+    if (fetchingError) return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Не удалось загрузить информацию</Text>
+        </View>
+    )
 
     return (
-        <ScrollView contentContainerStyle={styles.container} style={{backgroundColor: 'white'}}>
+        <ScrollView contentContainerStyle={styles.container} style={{ backgroundColor: 'white' }}>
             <View>
                 <Text>
                     ФИО
@@ -73,8 +71,14 @@ const rideActivity = ({}) => {
                 <Text>
                     Тип поездки
                 </Text>
-                <Select style={styles.input}>
-                    <SelectItem title='Тренировка' />
+                <Select style={styles.input}
+                    selectedIndex={selectedIndexRideType}
+                    onSelect={(index) => setSelectedIndexRideType(index)}
+                    value={rideTypesList?.[selectedIndexRideType.row]?.name}
+                >
+                    {
+                        rideTypesList?.map(rideType => <SelectItem title={rideType?.name} key={rideType?._id} />)
+                    }
                 </Select>
             </View>
             <View>
@@ -108,8 +112,14 @@ const rideActivity = ({}) => {
                 <Text>
                     Длительность
                 </Text>
-                <Select style={styles.input}>
-                    <SelectItem title='3 часа' />
+                <Select style={styles.input}
+                    selectedIndex={selectedIndexRideDuration}
+                    onSelect={(index) => setSelectedIndexRideDuration(index)}
+                    value={rideDurationsList?.[selectedIndexRideDuration.row]?.name}
+                >
+                    {
+                        rideDurationsList?.map(rideDuration => <SelectItem title={rideDuration?.name} key={rideDuration?._id} />)
+                    }
                 </Select>
             </View>
             <View>
@@ -118,22 +128,16 @@ const rideActivity = ({}) => {
                 </Text>
                 <Input style={styles.input} value="3" />
             </View>
-            <View style={{flexDirection: 'row', gap: 30, alignItems: "center"}}>
+            <View style={{ flexDirection: 'row', gap: 30, alignItems: "center" }}>
                 <Text>
                     Подтверждено
                 </Text>
                 <Toggle
-                    // checked={checked}
-                    // onChange={onCheckedChange}
+                // checked={checked}
+                // onChange={onCheckedChange}
                 >
 
                 </Toggle>
-            </View>
-            <View>
-                <Text>
-                    Описание
-                </Text>
-                <Input style={styles.input} value="3" />
             </View>
             {/* 
             <View style={{marginBottom: 30}}>
@@ -145,7 +149,7 @@ const rideActivity = ({}) => {
                 </Select>
             </View> */}
             {/* There is bug with padding bottom */}
-            <View style={{height: 10}}></View>
+            <View style={{ height: 10 }}></View>
 
         </ScrollView>
     )

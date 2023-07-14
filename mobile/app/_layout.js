@@ -5,6 +5,7 @@ import { Drawer } from 'expo-router/drawer'
 import { Button } from 'react-native';
 import { ApplicationProvider } from "@ui-kitten/components/theme";
 import * as eva from '@eva-design/eva';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 
 const Layout = () => {
@@ -24,6 +25,7 @@ const Layout = () => {
                 <Drawer.Screen name='schedule' options={{ title: "Расписание" }} />
                 <Drawer.Screen name='login' options={{ title: "Вход" }} />
             </Drawer>
+            <Toast />
         </ApplicationProvider>
     )
 }
