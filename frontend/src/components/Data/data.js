@@ -13,14 +13,12 @@ export const rideFreeHoursQuery = (date) => {
 }
 
 export const rideHoursQuery = (date) => {
+    console.log(date)
     const query =
         `*[_type == "rideHours"]|order(startTime asc){
             ...,
-            "free": *[_type == "rideBusySchedule" && date == "2023-07-11"][0]{
-                "free": count(busyHours[startTime >= ^.^.startTime && startTime >= ^.^.endTime && ^.^.endTime <= ^.dayEnd 
-                    || endTime <= ^.^.startTime && endTime <= ^.^.endTime && ^.^.endTime <= ^.dayEnd ]) > 0
-              }.free
-        }`
+            "busy": @._id in *[_type == "rideBusySchedule" && date== "${date}"].busyHours[]._ref 
+          }`
     return query;
 }
 
@@ -28,9 +26,10 @@ export const isRideIntervalFreeQuery = (date, startTime, duration) => {
     startTime = Number(startTime);
     const endTime = Number(startTime) + Number(duration);
     const query =
-        `*[_type == "rideBusySchedule" && date == "${date}"][0]{
-        "free": count(busyHours[startTime >= ${startTime} && startTime >= ${endTime} && ${endTime} <= ^.dayEnd 
-            || endTime <= ${startTime} && endTime <= ${endTime} && ${endTime} <= ^.dayEnd ]) > 0
-      }`
+        `defined(
+            *[_type == "rideBusySchedule" && date == "${date}" && references(
+              *[_type == "rideHours" && startTime >= ${startTime} && endTime <= ${endTime}]._id
+            ) || dayEnd < ${endTime}][0]
+          )`
     return query;
 }

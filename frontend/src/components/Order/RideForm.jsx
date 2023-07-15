@@ -31,7 +31,6 @@ const RideForm = ({ handleCloseModal }) => {
 
     useEffect(() => {
         client.fetch(rideTypesQuery).then((data) => { setRideTypesList(data); setRideType(data[0]?._id) })
-        // client.fetch(rideDurationsListQuery).then((data) => setRideDurationsList(data))
     }, [])
 
 
@@ -46,60 +45,15 @@ const RideForm = ({ handleCloseModal }) => {
         setDate(dateString);
         setStartTime('');
         setStartTimeDisabled(true);
-        if (dateString != '') client.fetch(rideHoursQuery(dateString)).then((data) => { setRideHoursList(data); setStartTimeDisabled(false) });
+        if (dateString != '') client.fetch(rideHoursQuery(dateString)).then((data) => { setRideHoursList(data); setStartTimeDisabled(false); });
     }
 
     //on start time change
     useEffect(() => {
 
-        setDurationDisabled(true)
+        setDurationDisabled(true);
         if(startTime != '') fetchRideDurations();
-        
 
-        //console.log('rd', rideDurations)
-        // setRideDurationsList(rideDurations)
-        // setDurationDisabled(false)
-
-
-
-        // let rideDurations = data?.map(async (rideDuration) => {
-        //     let resp = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
-        //     console.log(resp)
-        //     return {
-        //         ...rideDuration,
-        //         free: resp[0]?.free
-        //     }
-        // })
-
-        // client.fetch(rideDurationsListQuery).then((data) => {
-        //     data.map((rideDuration) => {
-
-        //     })
-        // })
-
-
-        // if (startTime != '') {
-        //     client.fetch(rideDurationsListQuery).then((data) => {
-        //         let tempArray = []
-        //         //Необходимо определить, доступна ли прогулка на каждую длительность
-        //         for (let i = 0; i < data.length; i++) {
-        //             let element = data[i];
-        //             element.busy = false; // by default you can choose any duration
-        //             let endTime = Number(startTime) + Number(element?.duration);
-
-        //             //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
-        //             rideHoursList.forEach(rideHour => {
-        //                 if (rideHour?.hour > startTime && rideHour?.hour < endTime && rideHour.busy //Если между временем начала и временем окончания есть занятый час, то такая длительность занята
-        //                     || endTime > rideHoursList[rideHoursList?.length - 1]?.hour + 1) { // Или занятие оканчивается после последнего часа
-        //                     element.busy = true;
-        //                 }
-        //             });
-        //             tempArray.push(element)
-        //         }
-        //         setRideDurationsList(tempArray);
-        //         setDurationDisabled(false)
-        //     })
-        // }
     }, [startTime])
 
     async function fetchRideDurations() {
@@ -108,13 +62,12 @@ const RideForm = ({ handleCloseModal }) => {
         const listData = await client.fetch(rideDurationsListQuery)
 
         let rideDurations = await Promise.all(listData?.map(async (rideDuration) => {
-            let resp = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
+            let isBusy = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
             return {
                 ...rideDuration,
-                free: resp?.free
+                busy: isBusy, 
             }
         }))
-        console.log(rideDurations)
         setRideDurationsList(rideDurations)
         setDurationDisabled(false)
     }
@@ -222,7 +175,7 @@ const RideForm = ({ handleCloseModal }) => {
                                 w='full'
                                 sx={{ pl: '20px', pr: '32px', py: '10px', fontSize: '16px', lineHeight: '125%', h: 'fit-content' }}>
                                 <option value="" selected disabled hidden className='truncate'>Выберите время</option>
-                                {rideHoursList?.map((hour) => <option value={hour?.startTime} key={hour?._id} disabled={!hour?.free}>{hour.name}</option>)}
+                                {rideHoursList?.map((hour) => <option value={hour?.startTime} key={hour?._id} disabled={hour?.busy}>{hour.name}</option>)}
                             </Select>
                         </label>
                         <label className='description-text'>
@@ -238,7 +191,7 @@ const RideForm = ({ handleCloseModal }) => {
                                 sx={{ px: '20px', pr: '32px', py: '10px', fontSize: '16px', lineHeight: '125%', h: 'fit-content' }}>
                                 <option value="" selected disabled hidden className='truncate'>Выберите длительность</option>
                                 {rideDurationsList?.map((rideDuration) =>
-                                    <option value={rideDuration?.duration} key={rideDuration?._id} disabled={!rideDuration?.free}>
+                                    <option value={rideDuration?.duration} key={rideDuration?._id} disabled={rideDuration?.busy}>
                                         {rideDuration?.name}
                                     </option>)}
                             </Select>
