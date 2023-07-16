@@ -5,5 +5,6 @@ import rideTypes from "./rideTypes"
 import rideDurations from "./rideDurations"
 import rideHours from "./rideHours"
 import rideBusySchedule from "./rideBusySchedule"
+import constants from "./constants"
 
-export const schemaTypes = [user, userRoles, rideActivity, rideTypes, rideDurations, rideHours, rideBusySchedule]
+export const schemaTypes = [user, userRoles, rideActivity, rideTypes, rideDurations, rideHours, rideBusySchedule, constants]

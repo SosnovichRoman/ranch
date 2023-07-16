@@ -8,7 +8,7 @@ import locale from 'antd/locale/ru_RU';
 import './RideForm.scss'
 import { Select, useToast } from '@chakra-ui/react'
 import client from '../SanityClient/client';
-import { rideDurationsListQuery, rideTypesQuery, rideHoursQuery, isRideIntervalFreeQuery } from '../Data/data';
+import { rideDurationsListQuery, rideTypesQuery, rideHoursQuery, isRideIntervalBusyQuery } from '../Data/data';
 
 const RideForm = ({ handleCloseModal }) => {
 
@@ -62,7 +62,7 @@ const RideForm = ({ handleCloseModal }) => {
         const listData = await client.fetch(rideDurationsListQuery)
 
         let rideDurations = await Promise.all(listData?.map(async (rideDuration) => {
-            let isBusy = await client.fetch(isRideIntervalFreeQuery(date, startTime, rideDuration?.duration))
+            let isBusy = await client.fetch(isRideIntervalBusyQuery(date, startTime, rideDuration?.duration))
             return {
                 ...rideDuration,
                 busy: isBusy, 
