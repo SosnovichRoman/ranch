@@ -3,12 +3,12 @@ import { Link } from "expo-router"
 import { View, Button, SafeAreaView } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Layout, Text, ViewPager, TabBar, Tab, Divider } from '@ui-kitten/components';
-import { readUser } from "../utils/userStorage";
-import client from "../components/SanityClient/client";
-import { scheduleQuery } from "../utils/data";
+import { readUser } from "../../utils/userStorage";
+import client from "../../components/SanityClient/client";
+import { scheduleQuery } from "../../utils/data";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import dayjs from "dayjs";
-import ScheduleList from "../components/Schedule/ScheduleList";
+import ScheduleList from "../../components/Schedule/ScheduleList";
 
 
 const HomeScreen = () => {

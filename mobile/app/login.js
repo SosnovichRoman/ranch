@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native"
 import client from "../components/SanityClient/client"
-import { loginQuery, rideTypesQuery } from "../utils/data"
+import { loginQuery } from "../utils/data"
 import { Button, Input, Text } from "@ui-kitten/components"
 import { Toast } from "react-native-toast-message/lib/src/Toast"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Link } from "expo-router"
 
 const LoginScreen = () => {
 
@@ -81,6 +82,7 @@ const LoginScreen = () => {
                     <Button style={{ marginTop: 10 }} onPress={submitHandler}>
                         Войти
                     </Button>
+                    <Link href='/schedule'>Расписание</Link>
                 </View>
             </ScrollView>
         </SafeAreaView>
