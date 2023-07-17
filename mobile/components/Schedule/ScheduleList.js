@@ -8,8 +8,6 @@ const ScheduleList = ({ date, schedule }) => {
     const records = schedule?.filter((item) => item.date == date.format('YYYY-MM-DD'))
 
     if (!records || records?.length == 0) {
-        
-        console.log('empty')
         return (
             <View style={styles.emptyContainer}>
                 <Text>Пусто</Text>

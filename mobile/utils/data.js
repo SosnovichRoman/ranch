@@ -67,3 +67,5 @@ export const rideActivityQuery = (id) => {
                     }`
     return query;
 }
+
+export const instructorsQuery = '*[_type == "user"]|order(name asc)'

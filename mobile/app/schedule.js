@@ -41,7 +41,6 @@ const HomeScreen = () => {
         client.fetch(scheduleQuery(user?._id))
             .then((data) => {
                 setSchedule(data);
-                console.log(data)
             })
             .catch((err) => {
                 console.log(err);
@@ -49,6 +48,11 @@ const HomeScreen = () => {
                     type: 'error',
                     text1: 'Не удалось загрузить расписание'
                 });
+                return (
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 15 }}>
+                        <Text category="s1">Не удалось загрузить расписание.</Text>
+                    </View>
+                )
             })
     }
 
@@ -59,7 +63,6 @@ const HomeScreen = () => {
             dateArray.push(date);
             date = date.add(1, 'day');
         }
-
         return dateArray;
     }
 

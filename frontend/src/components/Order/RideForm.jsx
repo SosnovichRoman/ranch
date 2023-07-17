@@ -33,7 +33,6 @@ const RideForm = ({ handleCloseModal }) => {
         client.fetch(rideTypesQuery).then((data) => { setRideTypesList(data); setRideType(data[0]?._id) })
     }, [])
 
-
     const [datePickerStyle, setDatePickerStyle] =
         useState({
             padding: '10px 20px', display: 'block',

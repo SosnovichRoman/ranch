@@ -6,12 +6,13 @@ import { Button } from 'react-native';
 import { ApplicationProvider } from "@ui-kitten/components/theme";
 import * as eva from '@eva-design/eva';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { default as mapping } from '../mapping.json';
 
 
 const Layout = () => {
 
     return (
-        <ApplicationProvider {...eva} theme={eva.light}>
+        <ApplicationProvider {...eva} theme={eva.light} customMapping={mapping} >
             <Drawer
                 drawerContent={(props) => {
                     return (

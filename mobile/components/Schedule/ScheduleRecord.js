@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Divider, Text } from "@ui-kitten/components";
 import { dividerDarkColor, dividerDefaultColor } from "../../constants/colors";
 import { Link } from "expo-router";
+import { ConverDecimalHours } from "../../utils/convert";
 
 const ScheduleRecord = ({ showDate, record }) => {
     console.log(record)
@@ -13,9 +14,9 @@ const ScheduleRecord = ({ showDate, record }) => {
 
                     <View style={styles.timeSection}>
                         {/* {showDate && <Text style={styles.timeDate} category="s1">{record?.date}</Text>} */}
-                        <Text style={styles.timeTimeText}>{record?.startTime + ':00'}</Text>
+                        <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.startTime)}</Text>
                         <Divider style={styles.timeDivider} />
-                        <Text style={styles.timeTimeText}>{record?.endTime + ':00'}</Text>
+                        <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.endTime)}</Text>
                     </View>
                     <View style={styles.infoSection}>
                         <Text style={styles.rideType}>{record?.rideType.name}</Text>
