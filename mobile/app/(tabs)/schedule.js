@@ -20,14 +20,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         readUser().then((data) => {
-            if (!data) {
-                return (
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 15 }}>
-                        <Text category="s1">Выполните вход в аккаунт.</Text>
-                    </View>
-                )
-            }
-            else setUser(data);
+            setUser(data)
         })
     }, [])
 
@@ -37,7 +30,6 @@ const HomeScreen = () => {
 
 
     const fetchSchedule = () => {
-
         client.fetch(scheduleQuery(user?._id))
             .then((data) => {
                 setSchedule(data);
@@ -48,11 +40,6 @@ const HomeScreen = () => {
                     type: 'error',
                     text1: 'Не удалось загрузить расписание'
                 });
-                return (
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 15 }}>
-                        <Text category="s1">Не удалось загрузить расписание.</Text>
-                    </View>
-                )
             })
     }
 
@@ -66,8 +53,13 @@ const HomeScreen = () => {
         return dateArray;
     }
 
-    return (
+    if (!user) return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 15 }}>
+            <Text category="s1">Выполните вход в аккаунт.</Text>
+        </View>
+    )
 
+    return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <ViewPager
                 style={{ flex: 1 }}
@@ -75,7 +67,7 @@ const HomeScreen = () => {
                 onSelect={index => setSelectedIndex(index)}
             >
                 {dates?.map((date) =>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1 }} key={date.format('DD.MM.YYYY')}>
                         <View style={styles.tabHeader}>
                             <Text style={styles.tabTitle}>{date.format('DD.MM.YYYY')}</Text>
                             <Divider style={styles.headerDivider} />

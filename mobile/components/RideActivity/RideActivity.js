@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { View, ScrollView } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Divider, Input, Select, SelectItem, Text, IndexPath, Datepicker, Toggle, Button } from "@ui-kitten/components";
-import { useNavigation, useRouter, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import client from "../../components/SanityClient/client";
 import { instructorsQuery, rideActivityQuery, rideDurationsListQuery, rideTypesQuery } from "../../utils/data";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 import dayjs from "dayjs";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
-const RideActivity = ({ }) => {
+const RideActivity = () => {
     const params = useLocalSearchParams();
     const [fetchingError, setFetchingError] = useState(false)
     const [rideActivity, setRideActivity] = useState();
@@ -106,11 +106,16 @@ const RideActivity = ({ }) => {
             }) // Shallow merge
             .commit() // Perform the patch and return a promise
             .then((updatedDoc) => {
-                console.log('New document:')
-                console.log(updatedDoc)
+                Toast.show({
+                    type: 'success',
+                    text1: 'Сохранено'
+                })
             })
             .catch((err) => {
-                console.error('Oh no, the update failed: ', err.message)
+                Toast.show({
+                    type: 'error',
+                    text1: 'Ошибка при сохранении'
+                })
             })
     }
 
@@ -160,7 +165,6 @@ const RideActivity = ({ }) => {
                         Дата
                     </Text>
                     <Datepicker style={styles.input}
-
                         date={date}
                         onSelect={nextDate => setDate(nextDate)}
                     />

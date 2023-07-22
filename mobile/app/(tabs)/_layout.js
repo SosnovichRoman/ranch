@@ -1,12 +1,18 @@
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import React from 'react'
 import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
 import { Drawer } from 'expo-router/drawer'
 import { Button, Divider, Text } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { clearUser } from '../../utils/userStorage';
 
 const Layout = () => {
+
+    const accountExit = (props) => {
+        clearUser();
+        props.navigation.navigate("login")
+    }
 
     return (
         <Drawer
@@ -18,24 +24,23 @@ const Layout = () => {
                                 <Text category='s1'>Расписание</Text>
                             </TouchableOpacity>
                             <Divider />
+                            <TouchableOpacity onPress={() => props.navigation.navigate("rideBusySchedule")} style={styles.drawerItem}>
+                                <Text category='s1'>График работы</Text>
+                            </TouchableOpacity>
+                            <Divider />
                             <TouchableOpacity onPress={() => props.navigation.navigate("login")} style={styles.drawerItem}>
                                 <Text category='s1'>Логин</Text>
                             </TouchableOpacity>
-                            {/* <Button onPress={() => props.navigation.navigate("schedule")}>
-                                Расписание
-                            </Button>
-                            <Button onPress={() => props.navigation.navigate("login")}>
-                                Логин
-                            </Button> */}
-
+                            <Divider />
                         </DrawerContentScrollView>
-                        <Button onPress={() => console.log('custom button')}>
-                            Кастом
+                        <Button onPress={() => accountExit(props)}>
+                            Выйти
                         </Button>
                     </View>)
             }}
         >
             <Drawer.Screen name='schedule' options={{ title: "Расписание" }} />
+            <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
         </Drawer>
     )
 }

@@ -1,16 +1,18 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native"
 import client from "../components/SanityClient/client"
 import { loginQuery } from "../utils/data"
 import { Button, Input, Text } from "@ui-kitten/components"
 import { Toast } from "react-native-toast-message/lib/src/Toast"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link } from "expo-router"
+import { Link, Redirect } from "expo-router"
+import { readUser } from "../utils/userStorage"
 
 const LoginScreen = () => {
 
-    const [login, setLogin] = useState('')
-    const [password, setPassword] = useState('')
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [user, setUser] = useState()
 
     const submitHandler = () => {
         if (login == '' || password == '') {
@@ -57,6 +59,17 @@ const LoginScreen = () => {
             })
         }
     };
+
+    useEffect(() => {
+        readUserData();
+    }, [])
+
+    const readUserData = async () => {
+        const user = await readUser();
+        setUser(user);
+    }
+    
+    if(user) return(<Redirect href="/schedule" />)
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
