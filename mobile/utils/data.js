@@ -38,12 +38,34 @@ export const isRideIntervalFreeQuery = (date, startTime, duration) => {
 }
 
 export const loginQuery = (login, password) => {
-    const query = `*[_type == 'user' && login == '${login}' && password == '${password}']{
+    const query = `*[_type == 'user' && login == '${login}' && password == '${password}']`
+    return query;
+}
+
+export const userQuery = (userId) => {
+    const query = `*[_type == 'user' && _id == '${userId}']{
         ...,
         "role": role->
       }[0]`
-    return query;
+    return query
 }
+
+export const userListQuery = `*[_type == 'user']{
+                                    ...,
+                                    "role": role->
+                                }`
+
+export const unapprovedScheduleQuery = `*[_type == 'rideActivity' && approved == false]{
+                                            ...,
+                                            rideType->,
+                                            duration->,
+                                        }`
+
+export const fullRideScheduleQuery = `*[_type == 'rideActivity']{
+                                            ...,
+                                            rideType->,
+                                            duration->,
+                                        }`
 
 export const scheduleQuery = (userId) => {
     const currentDate = dayjs();

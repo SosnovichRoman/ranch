@@ -69,7 +69,7 @@ const LoginScreen = () => {
         setUser(user);
     }
     
-    if(user) return(<Redirect href="/schedule" />)
+    if(user) return(<Redirect href={`userSchedule/${user._id}`} />)
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>

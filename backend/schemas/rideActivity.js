@@ -54,6 +54,7 @@ export default {
             name: 'approved',
             title: 'Approved',
             type: 'boolean',
+            initialValue: false,
         },
         {
             name: 'instructors',

@@ -6,7 +6,6 @@ import client from "../../components/SanityClient/client";
 import { busyScheduleQuery, rideHoursListQuery } from "../../utils/data";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { ConverDecimalHours } from "../../utils/convert";
-import { nanoid } from 'nanoid';
 import uuid from 'react-native-uuid';
 
 const rideBusySchedule = () => {
@@ -57,13 +56,7 @@ const rideBusySchedule = () => {
     }
 
     const saveChanges = () => {
-
-        // console.log({
-        //     ...busySchedule,
-        //     // busyHours: busySchedule?.busyHours?.map((busyHour) => { return { _ref: busyHour?._id, _key: uuid.v4() } })
-        // })
-
-
+        
         if (busySchedule._id) {
             client.patch(busySchedule?._id)
                 .set({

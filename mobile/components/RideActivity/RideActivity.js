@@ -7,6 +7,7 @@ import client from "../../components/SanityClient/client";
 import { instructorsQuery, rideActivityQuery, rideDurationsListQuery, rideTypesQuery } from "../../utils/data";
 import dayjs from "dayjs";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
+import uuid from 'react-native-uuid';
 
 const RideActivity = () => {
     const params = useLocalSearchParams();
@@ -81,7 +82,8 @@ const RideActivity = () => {
         .filter((val, index) => selectedIndexInstructor.map((selectedIndex) => selectedIndex.row).includes(index))
         .map((val) => {
             return {
-                _ref: val?._id
+                _ref: val?._id,
+                _key: uuid.v4()
             }
         })
 

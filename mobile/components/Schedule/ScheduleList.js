@@ -5,7 +5,11 @@ import ScheduleRecord from "./ScheduleRecord";
 
 const ScheduleList = ({ date, schedule }) => {
 
-    const records = schedule?.filter((item) => item.date == date.format('YYYY-MM-DD'))
+    let records = [];
+    if(date) records = schedule?.filter((item) => item.date == date.format('YYYY-MM-DD'));
+    else records = schedule;
+
+    
 
     if (!records || records?.length == 0) {
         return (
@@ -16,7 +20,7 @@ const ScheduleList = ({ date, schedule }) => {
     }
 
     return (
-        <ScrollView style={{ flex: 1 }} key={date.format()}>
+        <ScrollView style={{ flex: 1 }}>
             {
                 records.map((item) => (
                     <ScheduleRecord record={item} showDate={false} key={item?._id} />

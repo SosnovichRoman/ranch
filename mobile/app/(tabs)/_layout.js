@@ -1,13 +1,25 @@
-import { Stack, useRouter } from 'expo-router'
-import React from 'react'
-import { DrawerContentScrollView, DrawerItem, createDrawerNavigator } from '@react-navigation/drawer';
+import React, { useState, useEffect } from 'react'
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { Drawer } from 'expo-router/drawer'
 import { Button, Divider, Text } from '@ui-kitten/components';
 import { View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { clearUser } from '../../utils/userStorage';
+import { clearUser, readUser } from '../../utils/userStorage';
+import { Link } from 'expo-router';
+import client from "../../components/SanityClient/client";
+import { userListQuery } from '../../utils/data';
 
 const Layout = () => {
+
+    const [user, setUser] = useState();
+    const [userList, setUserList] = useState([]);
+
+    useEffect(() => {
+        readUser().then((data) => {
+            setUser(data)
+        });
+        client.fetch(userListQuery).then((data) => setUserList(data))
+    }, [])
 
     const accountExit = (props) => {
         clearUser();
@@ -20,18 +32,31 @@ const Layout = () => {
                 return (
                     <View style={{ justifyContent: "space-between", flex: 1 }}>
                         <DrawerContentScrollView {...props}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate("schedule")} style={styles.drawerItem}>
-                                <Text category='s1'>Расписание</Text>
+                            <TouchableOpacity onPress={() => props.navigation.navigate("unapprovedActivities")} style={styles.drawerItem}>
+                                <Text category='s1'>Неподтвержденные заявки</Text>
                             </TouchableOpacity>
                             <Divider />
                             <TouchableOpacity onPress={() => props.navigation.navigate("rideBusySchedule")} style={styles.drawerItem}>
                                 <Text category='s1'>График работы</Text>
                             </TouchableOpacity>
                             <Divider />
-                            <TouchableOpacity onPress={() => props.navigation.navigate("login")} style={styles.drawerItem}>
-                                <Text category='s1'>Логин</Text>
+                            <TouchableOpacity style={styles.drawerItem}>
+                                <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Моё расписание</Link></Text>
                             </TouchableOpacity>
                             <Divider />
+                            <TouchableOpacity style={styles.drawerItem}>
+                                <Text category='s1'><Link href={`userSchedule/0`}>Полное расписание</Link></Text>
+                            </TouchableOpacity>
+                            <Divider />
+                            {
+                                userList.map((user) =>
+                                    <View key={user?._id}>
+                                        <TouchableOpacity style={styles.drawerItem}>
+                                            <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Расписание {user?.name}</Link></Text>
+                                        </TouchableOpacity>
+                                        <Divider />
+                                    </View>)
+                            }
                         </DrawerContentScrollView>
                         <Button onPress={() => accountExit(props)}>
                             Выйти
@@ -39,8 +64,9 @@ const Layout = () => {
                     </View>)
             }}
         >
-            <Drawer.Screen name='schedule' options={{ title: "Расписание" }} />
+            <Drawer.Screen name='userSchedule' options={{ title: "Расписание" }} />
             <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
+            <Drawer.Screen name='unapprovedActivities' options={{ title: "Неподтвержденные заявки" }} />
         </Drawer>
     )
 }
