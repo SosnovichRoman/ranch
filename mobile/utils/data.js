@@ -38,7 +38,10 @@ export const isRideIntervalFreeQuery = (date, startTime, duration) => {
 }
 
 export const loginQuery = (login, password) => {
-    const query = `*[_type == 'user' && login == '${login}' && password == '${password}']`
+    const query = `*[_type == 'user' && login == '${login}' && password == '${password}']{
+        ...,
+        "role": role->
+      }[0]`
     return query;
 }
 

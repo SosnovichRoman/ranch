@@ -89,6 +89,7 @@ const RideForm = ({ handleCloseModal }) => {
                 "duration": {
                     _ref: rideDurationsList.find((obj) => obj?.duration == duration)?._id
                 },
+                "approved": false
             };
 
             client.create(doc).then((resp) => {

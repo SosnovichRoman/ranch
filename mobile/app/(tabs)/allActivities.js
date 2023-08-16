@@ -4,9 +4,8 @@ import { StyleSheet } from 'react-native';
 import { Text, ViewPager, Divider } from '@ui-kitten/components';
 import { readUser } from "../../utils/userStorage";
 import client from "../../components/SanityClient/client";
-import { scheduleQuery, unapprovedScheduleQuery } from "../../utils/data";
+import { fullRideScheduleQuery} from "../../utils/data";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import dayjs from "dayjs";
 import ScheduleList from "../../components/Schedule/ScheduleList";
 
 
@@ -26,7 +25,7 @@ const unapprovedScheduleScreen = () => {
     }, [user])
 
     const fetchSchedule = () => {
-        client.fetch(unapprovedScheduleQuery)
+        client.fetch(fullRideScheduleQuery)
             .then((data) => {
                 setSchedule(data);
             })
