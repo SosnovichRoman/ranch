@@ -47,9 +47,9 @@ const Layout = () => {
                                         <Text category='s1'><Link href={`???`}>График работы</Link></Text>
                                     </TouchableOpacity>
                                     <Divider /> */}
-                                    <TouchableOpacity style={styles.drawerItem}>
+                                    {/* <TouchableOpacity style={styles.drawerItem}>
                                         <Text category='s1'><Link href={`userSchedule/0`}>Полное расписание</Link></Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
                                     <Divider />
                                     {
                                         userList.map((user) =>
@@ -79,6 +79,7 @@ const Layout = () => {
             <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
             <Drawer.Screen name='unapprovedActivities' options={{ title: "Неподтвержденные заявки" }} />
             <Drawer.Screen name='lastActivities' options={{ title: "Последние заявки" }} />
+            {/* <Drawer.Screen name={`userSchedule`} options={{ title: "" }} /> */}
         </Drawer>
     )
 }
