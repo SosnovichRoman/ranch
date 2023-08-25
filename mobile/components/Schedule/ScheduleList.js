@@ -1,26 +1,30 @@
-import { View, ScrollView} from "react-native"
+import { View, ScrollView, RefreshControl } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Divider, Text } from "@ui-kitten/components";
 import ScheduleRecord from "./ScheduleRecord";
 
-const ScheduleList = ({ date, schedule }) => {
+const ScheduleList = ({ date, schedule, refreshing, onRefresh }) => {
 
     let records = [];
-    if(date) records = schedule?.filter((item) => item.date == date.format('YYYY-MM-DD'));
+    if (date) records = schedule?.filter((item) => item.date == date.format('YYYY-MM-DD'));
     else records = schedule;
 
-    
+
 
     if (!records || records?.length == 0) {
         return (
-            <View style={styles.emptyContainer}>
+            <ScrollView contentContainerStyle={styles.emptyContainer}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
                 <Text>Пусто</Text>
-            </View>
+            </ScrollView>
         )
     }
 
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
             {
                 records.map((item) => (
                     <ScheduleRecord record={item} showDate={false} key={item?._id} />

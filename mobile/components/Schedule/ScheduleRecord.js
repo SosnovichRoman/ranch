@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 import { ConverDecimalHours } from "../../utils/convert";
 
 const ScheduleRecord = ({ showDate, record }) => {
-    console.log(record)
+
     return (
         <Link href={`/rideActivity/${record._id}`} style={{display: 'flex', flexDirection: 'column'}}>
 

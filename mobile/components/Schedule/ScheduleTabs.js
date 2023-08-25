@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import ScheduleList from "../../components/Schedule/ScheduleList";
 
 
-const ScheduleTabs = ({ schedule }) => {
+const ScheduleTabs = ({ schedule, refreshing, onRefresh }) => {
 
     const [selectedIndex, setSelectedIndex] = useState(0);
     const dates = datesInRange(dayjs(), 30);
@@ -33,7 +33,7 @@ const ScheduleTabs = ({ schedule }) => {
                         <Text style={styles.tabTitle}>{date.format('DD.MM.YYYY')}</Text>
                         <Divider style={styles.headerDivider} />
                     </View>
-                    <ScheduleList date={date} schedule={schedule} />
+                    <ScheduleList refreshing={refreshing} onRefresh={onRefresh} date={date} schedule={schedule} />
                 </View>
             )}
         </ViewPager>
