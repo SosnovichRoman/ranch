@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View, SafeAreaView } from "react-native"
 import client from "../../../components/SanityClient/client";
-import { fullRideScheduleQuery, userQuery } from "../../../utils/data";
+import { lastRideScheduleQuery, userQuery } from "../../../utils/data";
 import ScheduleTabs from "../../../components/Schedule/ScheduleTabs";
 import { useLocalSearchParams } from "expo-router";
 import { Text } from "@ui-kitten/components";
@@ -22,7 +22,7 @@ const ScheduleScreen = () => {
     const fetchSchedule = async () => {
         try {
             //if userId == 0 then fetch all data
-            if (userId == 0) setSchedule(await client.fetch(fullRideScheduleQuery))
+            if (userId == 0) setSchedule(await client.fetch(lastRideScheduleQuery))
             else {
                 const user = await client.fetch(userQuery(userId));
                 if(user) setSchedule(await client.fetch(scheduleQuery(user?._id)))
@@ -34,6 +34,7 @@ const ScheduleScreen = () => {
                 type: 'error',
                 text1: 'Ошибка загрузки данных'
             })
+            setFetchingError(true)
         }
     }
 

@@ -64,7 +64,7 @@ export const unapprovedScheduleQuery = `*[_type == 'rideActivity' && approved ==
                                             duration->,
                                         }`
 
-export const fullRideScheduleQuery = `*[_type == 'rideActivity']{
+export const lastRideScheduleQuery = `*[_type == 'rideActivity'][0..30]|order(_updatedAt desc){
                                             ...,
                                             rideType->,
                                             duration->,
