@@ -32,31 +32,42 @@ const Layout = () => {
                 return (
                     <View style={{ justifyContent: "space-between", flex: 1 }}>
                         <DrawerContentScrollView {...props}>
-                            <TouchableOpacity onPress={() => props.navigation.navigate("unapprovedActivities")} style={styles.drawerItem}>
-                                <Text category='s1'>Неподтвержденные заявки</Text>
-                            </TouchableOpacity>
-                            <Divider />
-                            <TouchableOpacity onPress={() => props.navigation.navigate("rideBusySchedule")} style={styles.drawerItem}>
-                                <Text category='s1'>График работы</Text>
-                            </TouchableOpacity>
-                            <Divider />
+                            {
+                                user?.role?.name == 'admin' &&
+                                <>
+                                    <TouchableOpacity style={styles.drawerItem}>
+                                        <Text category='s1'><Link href={`/unapprovedActivities`}>Неподтвержденные заявки</Link></Text>
+                                    </TouchableOpacity>
+                                    <Divider />
+                                    <TouchableOpacity style={styles.drawerItem}>
+                                        <Text category='s1'><Link href={`lastActivities`}>Последние заявки</Link></Text>
+                                    </TouchableOpacity>
+                                    <Divider />
+                                    {/* <TouchableOpacity style={styles.drawerItem}>
+                                        <Text category='s1'><Link href={`???`}>График работы</Link></Text>
+                                    </TouchableOpacity>
+                                    <Divider /> */}
+                                    <TouchableOpacity style={styles.drawerItem}>
+                                        <Text category='s1'><Link href={`userSchedule/0`}>Полное расписание</Link></Text>
+                                    </TouchableOpacity>
+                                    <Divider />
+                                    {
+                                        userList.map((user) =>
+                                            <View key={user?._id}>
+                                                <TouchableOpacity style={styles.drawerItem}>
+                                                    <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Расписание {user?.name}</Link></Text>
+                                                </TouchableOpacity>
+                                                <Divider />
+                                            </View>)
+                                    }
+                                </>
+                            }
+
                             <TouchableOpacity style={styles.drawerItem}>
                                 <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Моё расписание</Link></Text>
                             </TouchableOpacity>
                             <Divider />
-                            <TouchableOpacity style={styles.drawerItem}>
-                                <Text category='s1'><Link href={`userSchedule/0`}>Полное расписание</Link></Text>
-                            </TouchableOpacity>
-                            <Divider />
-                            {
-                                userList.map((user) =>
-                                    <View key={user?._id}>
-                                        <TouchableOpacity style={styles.drawerItem}>
-                                            <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Расписание {user?.name}</Link></Text>
-                                        </TouchableOpacity>
-                                        <Divider />
-                                    </View>)
-                            }
+
                         </DrawerContentScrollView>
                         <Button onPress={() => accountExit(props)}>
                             Выйти
@@ -67,6 +78,7 @@ const Layout = () => {
             <Drawer.Screen name='userSchedule' options={{ title: "Расписание" }} />
             <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
             <Drawer.Screen name='unapprovedActivities' options={{ title: "Неподтвержденные заявки" }} />
+            <Drawer.Screen name='lastActivities' options={{ title: "Последние заявки" }} />
         </Drawer>
     )
 }
