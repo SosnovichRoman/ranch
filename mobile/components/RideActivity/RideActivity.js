@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, ScrollView } from "react-native"
+import { View, ScrollView, SafeAreaView } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Divider, Input, Select, SelectItem, Text, IndexPath, Datepicker, Toggle, Button } from "@ui-kitten/components";
 import { useLocalSearchParams } from "expo-router";
@@ -59,13 +59,13 @@ const RideActivity = () => {
         setSelectedIndexRideType(new IndexPath(
             rideTypesList.findIndex((rideType) => rideType._id == data?.rideType?._id)
         ));
-        setCount(data?.personCount);
+        setCount(data?.personCount.toString());
         setDate(new Date(data?.date))
         setSelectedIndexRideType(new IndexPath(
             rideDurationsList.findIndex((rideDuration) => rideDuration._id == data?.duration?._id)
         ));
-        setStartTime(data?.startTime);
-        setEndTime(data?.endTime);
+        setStartTime(data?.startTime.toString());
+        setEndTime(data?.endTime.toString());
         setApproved(data?.approved);
         setSelectedIndexInstructor(
             instructorsList?.map((instructor, index) => {
@@ -92,7 +92,7 @@ const RideActivity = () => {
             .set({
                 clientName: fio,
                 clientPhone: phone,
-                personCount: count,
+                personCount: Number(count),
                 rideType: {
                     _ref: rideTypesList[selectedIndexRideType.row]?._id
                 },
@@ -128,8 +128,8 @@ const RideActivity = () => {
     )
 
     return (
-        <>
-            <ScrollView contentContainerStyle={styles.container} style={{ backgroundColor: 'white' }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView contentContainerStyle={styles.container} style={{ backgroundColor: 'white', flex: 1 }}>
                 <View>
                     <Text>
                         ФИО
@@ -160,7 +160,7 @@ const RideActivity = () => {
                     <Text>
                         Количество человек
                     </Text>
-                    <Input style={styles.input} onChangeText={val => setCount(val)} value={count} />
+                    <Input style={styles.input} value={count} onChangeText={val => setCount(val)} />
                 </View>
                 <View>
                     <Text>
@@ -229,7 +229,7 @@ const RideActivity = () => {
                     </Select>
                 </View>
                 {/* There is bug with padding bottom */}
-                <View style={{ height: 10 }}></View>
+                {/* <View style={{ height: 10 }}></View> */}
 
             </ScrollView>
             <View>
@@ -241,13 +241,12 @@ const RideActivity = () => {
                     </Button>
                 </View>
             </View>
-        </>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         gap: 20,
         paddingHorizontal: 20,
         paddingVertical: 30,

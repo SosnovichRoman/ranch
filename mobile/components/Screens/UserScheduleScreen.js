@@ -15,7 +15,8 @@ const UserScheduleScreen = () => {
     const [schedule, setSchedule] = useState();
     const [fetchingError, setFetchingError] = useState(false);
     const [title, setTitle] = useState('');
-    useNavigation().setOptions({ title: title })
+    useNavigation().setOptions({ title: title });
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetchSchedule();
@@ -37,6 +38,12 @@ const UserScheduleScreen = () => {
         }
     }
 
+    const onRefresh = async () => {
+        setRefreshing(true)
+        await fetchSchedule();
+        setRefreshing(false)
+    }
+
     if (fetchingError) return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -47,7 +54,7 @@ const UserScheduleScreen = () => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <ScheduleTabs schedule={schedule} />
+            <ScheduleTabs refreshing={refreshing} onRefresh={onRefresh} schedule={schedule} />
         </SafeAreaView>
     )
 

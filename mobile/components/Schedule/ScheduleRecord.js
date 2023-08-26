@@ -1,4 +1,4 @@
-import { View } from "react-native"
+import { Pressable, TouchableOpacity, View } from "react-native"
 import { StyleSheet } from 'react-native';
 import { Divider, Text } from "@ui-kitten/components";
 import { dividerDarkColor, dividerDefaultColor } from "../../constants/colors";
@@ -9,7 +9,7 @@ const ScheduleRecord = ({ showDate, record }) => {
 
     return (
         <Link href={`/rideActivity/${record._id}`} style={styles.link} asChild>
-            <View style={styles.wrapper}>
+            <TouchableOpacity style={styles.wrapper}>
                 <View style={styles.container}>
                     <View style={styles.timeSection}>
                         {/* {showDate && <Text style={styles.timeDate} category="s1">{record?.date}</Text>} */}
@@ -24,7 +24,7 @@ const ScheduleRecord = ({ showDate, record }) => {
                     </View>
                 </View>
                 <Divider style={styles.bottomDivider} />
-            </View>
+            </TouchableOpacity>
         </Link>
     )
 }

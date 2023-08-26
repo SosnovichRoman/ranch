@@ -11,7 +11,7 @@ const UnapprovedActivitiesScreen = () => {
 
     const [schedule, setSchedule] = useState();
     const [fetchingError, setFetchingError] = useState(false);
-    const [refreshing, setRefreshing] = useState(false)
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         fetchSchedule();
