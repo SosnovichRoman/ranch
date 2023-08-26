@@ -3,9 +3,23 @@
     "scheme": "acme",
     "web": {
       "bundler": "metro",
-      "build": { "babel": { "include": [ "@ui-kitten/components" ] } }
+      "build": {
+        "babel": {
+          "include": [
+            "@ui-kitten/components"
+          ]
+        }
+      }
     },
     "name": "mobile",
-    "slug": "mobile"
+    "slug": "mobile",
+    "extra": {
+      "eas": {
+        "projectId": "6d2036fc-97ef-4b9a-bd43-0b0c129f463f"
+      }
+    },
+    "android": {
+      "package": "com.sosnovichroman.mobile"
+    }
   }
 }

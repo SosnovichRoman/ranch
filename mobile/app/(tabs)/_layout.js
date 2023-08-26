@@ -79,7 +79,11 @@ const Layout = () => {
             <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
             <Drawer.Screen name='unapprovedActivities' options={{ title: "Неподтвержденные заявки" }} />
             <Drawer.Screen name='lastActivities' options={{ title: "Последние заявки" }} />
-            {/* <Drawer.Screen name={`userSchedule`} options={{ title: "" }} /> */}
+            {/* <Drawer.Screen name={`userSchedule/`} options={{ title: "" }} /> */}
+            {
+                userList.map((user) =>
+                    <Drawer.Screen name={`userSchedule/${user?._id}`} options={{ title: "" }} />)
+            }
         </Drawer>
     )
 }

@@ -10,6 +10,7 @@ import { readUser } from "../../utils/userStorage"
 
 const LoginScreen = () => {
 
+    const router = useRouter();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState()
@@ -50,7 +51,7 @@ const LoginScreen = () => {
                 type: 'success',
                 text1: 'Успешный вход',
             })
-            useRouter().push(`userSchedule/${user._id}`)
+            router.push(`userSchedule/${user._id}`)
         } catch (e) {
             console.log(e)
             Toast.show({
