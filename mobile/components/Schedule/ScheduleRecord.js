@@ -1,6 +1,6 @@
 import { View } from "react-native"
 import { StyleSheet } from 'react-native';
-import { ApplicationProvider, Divider, Text } from "@ui-kitten/components";
+import { Divider, Text } from "@ui-kitten/components";
 import { dividerDarkColor, dividerDefaultColor } from "../../constants/colors";
 import { Link } from "expo-router";
 import { ConverDecimalHours } from "../../utils/convert";
@@ -8,26 +8,34 @@ import { ConverDecimalHours } from "../../utils/convert";
 const ScheduleRecord = ({ showDate, record }) => {
 
     return (
-        <Link href={`/rideActivity/${record._id}`} style={{ display: 'flex', flexDirection: 'column' }}>
-            <View style={styles.container}>
-                <View style={styles.timeSection}>
-                    {/* {showDate && <Text style={styles.timeDate} category="s1">{record?.date}</Text>} */}
-                    <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.startTime)}</Text>
-                    <Divider style={styles.timeDivider} />
-                    <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.endTime)}</Text>
+        <Link href={`/rideActivity/${record._id}`} style={styles.link} asChild>
+            <View style={styles.wrapper}>
+                <View style={styles.container}>
+                    <View style={styles.timeSection}>
+                        {/* {showDate && <Text style={styles.timeDate} category="s1">{record?.date}</Text>} */}
+                        <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.startTime)}</Text>
+                        <Divider style={styles.timeDivider} />
+                        <Text style={styles.timeTimeText}>{ConverDecimalHours(record?.endTime)}</Text>
+                    </View>
+                    <View style={styles.infoSection}>
+                        <Text style={styles.rideType}>{record?.rideType.name}</Text>
+                        <Text>ФИО: <Text style={styles.boldText}>{record?.clientName}</Text></Text>
+                        <Text>Количество персон: <Text style={styles.boldText}>{record?.personCount}</Text></Text>
+                    </View>
                 </View>
-                <View style={styles.infoSection}>
-                    <Text style={styles.rideType}>{record?.rideType.name}</Text>
-                    <Text>ФИО: <Text category="s1">{record?.clientName}</Text></Text>
-                    <Text>Количество персон: <Text category="s1">{record?.personCount}</Text></Text>
-                </View>
+                <Divider style={styles.bottomDivider} />
             </View>
-            <Divider style={styles.bottomDivider} />
         </Link>
     )
 }
 
 const styles = StyleSheet.create({
+    link: {
+        width: '100%',
+    },
+    wrapper: {
+        width: '100%',
+    },
     container: {
         width: '100%',
         flexDirection: 'row'
@@ -59,6 +67,9 @@ const styles = StyleSheet.create({
     },
     rideType: {
         fontSize: 18,
+        fontWeight: 600,
+    },
+    boldText : {
         fontWeight: 600
     },
     bottomDivider: {
