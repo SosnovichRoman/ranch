@@ -71,7 +71,7 @@ const Layout = () => {
                                         userList.map((user) =>
                                             <View key={user?._id}>
                                                 <TouchableOpacity style={styles.drawerItem}>
-                                                    <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id } }}>Расписание {user?.name}</Link></Text>
+                                                    <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id, name: user?.name } }}>Расписание {user?.name}</Link></Text>
                                                 </TouchableOpacity>
                                                 <Divider />
                                             </View>)
@@ -80,7 +80,7 @@ const Layout = () => {
                             }
 
                             <TouchableOpacity style={styles.drawerItem}>
-                                <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id } }}>Моё расписание</Link></Text>
+                                <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id, name: user?.name  } }}>Моё расписание</Link></Text>
                             </TouchableOpacity>
                             <Divider />
 

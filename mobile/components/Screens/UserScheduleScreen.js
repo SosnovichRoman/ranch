@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { View, SafeAreaView } from "react-native"
+import { ScrollView, SafeAreaView, StyleSheet, RefreshControl } from "react-native"
 import client from "../../components/SanityClient/client";
-import { userQuery } from "../../utils/data";
 import ScheduleTabs from "../../components/Schedule/ScheduleTabs";
-import { useNavigation, useSearchParams } from "expo-router";
+import { Stack, useSearchParams } from "expo-router";
 import { Text } from "@ui-kitten/components";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { scheduleQuery } from "../../utils/data";
@@ -12,9 +11,9 @@ import { scheduleQuery } from "../../utils/data";
 const UserScheduleScreen = () => {
 
     const userId = useSearchParams()?.id;
+    const userName = useSearchParams()?.name;
     const [schedule, setSchedule] = useState();
     const [fetchingError, setFetchingError] = useState(false);
-    const navigator = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
@@ -23,10 +22,8 @@ const UserScheduleScreen = () => {
 
     const fetchSchedule = async () => {
         try {
-            const user = await client.fetch(userQuery(userId));
-            navigator.setOptions({ title: 'Расписание ' + user?.name });
-            if (user) setSchedule(await client.fetch(scheduleQuery(user?._id)));
-
+            setFetchingError(false);
+            setSchedule(await client.fetch(scheduleQuery(userId)));
         } catch (error) {
             console.log('error:', error)
             Toast.show({
@@ -44,19 +41,35 @@ const UserScheduleScreen = () => {
     }
 
     if (fetchingError) return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Не удалось загрузить информацию</Text>
-            </View>
-        </SafeAreaView>
+        <>
+            <Stack.Screen options={{ title: userName }} />
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+            <ScrollView contentContainerStyle={styles.emptyContainer}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
+                    <Text>Не удалось загрузить информацию</Text>
+                </ScrollView>
+            </SafeAreaView>
+        </>
     )
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-            <ScheduleTabs refreshing={refreshing} onRefresh={onRefresh} schedule={schedule} />
-        </SafeAreaView>
-    )
+        <>
+            <Stack.Screen options={{ title: userName }} />
+            <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+                <ScheduleTabs refreshing={refreshing} onRefresh={onRefresh} schedule={schedule} />
+            </SafeAreaView>
+        </>
 
+    )
 }
+
+const styles = StyleSheet.create({
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+});
 
 export default UserScheduleScreen

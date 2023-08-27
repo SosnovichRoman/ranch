@@ -48,7 +48,7 @@ const LoginScreen = () => {
                 type: 'success',
                 text1: 'Успешный вход',
             })
-            router.replace({ pathname: 'userSchedule', params: { id: value?._id } })
+            router.replace({ pathname: 'userSchedule', params: { id: value?._id, name: value?.name  } })
         } catch (e) {
             console.log(e)
             Toast.show({

@@ -14,7 +14,7 @@ const LoadingScreen = () => {
 
     const readUserData = async () => {
         const user = await readUser();
-        if(user) router.replace({ pathname: '/userSchedule', params: { id: user?._id } })
+        if(user) router.replace({ pathname: '/userSchedule', params: { id: user?._id, name: user?.name  } })
         else router.replace('/login')
     }
 

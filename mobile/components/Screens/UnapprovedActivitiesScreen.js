@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, SafeAreaView } from "react-native"
+import { RefreshControl, SafeAreaView, ScrollView } from "react-native"
 import client from "../../components/SanityClient/client";
 import { unapprovedScheduleQuery } from "../../utils/data";
 import ScheduleTabs from "../../components/Schedule/ScheduleTabs";
@@ -19,6 +19,7 @@ const UnapprovedActivitiesScreen = () => {
 
     const fetchSchedule = async () => {
         try {
+            setFetchingError(false);
             setSchedule(await client.fetch(unapprovedScheduleQuery))
         } catch (error) {
             console.log('error:', error)
