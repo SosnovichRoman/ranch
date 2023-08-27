@@ -24,7 +24,7 @@ const LoginScreen = () => {
         } else {
             client.fetch(loginQuery(login, password))
                 .then((data) => {
-                    if(data){
+                    if (data) {
                         storeData(data);
                     }
                     else Toast.show({
@@ -70,8 +70,8 @@ const LoginScreen = () => {
         const user = await readUser();
         setUser(user);
     }
-    
-    if(user) return(<Redirect href={`userSchedule/${user._id}`} />)
+
+    if (user) return (<Redirect href={{ pathname: 'userSchedule', params: { id: user?._id } }} />)
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>

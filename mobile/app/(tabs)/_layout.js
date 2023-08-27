@@ -23,7 +23,7 @@ const Layout = () => {
 
     const accountExit = (props) => {
         clearUser();
-        props.navigation.navigate("login")
+        props.navigation.navigate("/login")
     }
 
     return (
@@ -55,7 +55,7 @@ const Layout = () => {
                                         userList.map((user) =>
                                             <View key={user?._id}>
                                                 <TouchableOpacity style={styles.drawerItem}>
-                                                    <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Расписание {user?.name}</Link></Text>
+                                                    <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id } }}>Расписание {user?.name}</Link></Text>
                                                 </TouchableOpacity>
                                                 <Divider />
                                             </View>)
@@ -64,7 +64,7 @@ const Layout = () => {
                             }
 
                             <TouchableOpacity style={styles.drawerItem}>
-                                <Text category='s1'><Link href={`userSchedule/${user?._id}`}>Моё расписание</Link></Text>
+                                <Text category='s1'><Link href={{ pathname: 'userSchedule', params: { id: user?._id } }}>Моё расписание</Link></Text>
                             </TouchableOpacity>
                             <Divider />
 
@@ -75,15 +75,10 @@ const Layout = () => {
                     </View>)
             }}
         >
-            <Drawer.Screen name='userSchedule' options={{ title: "Расписание" }} />
-            <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} />
+            <Drawer.Screen name='userSchedule' />
+            {/* <Drawer.Screen name='rideBusySchedule' options={{ title: "График работы" }} /> */}
             <Drawer.Screen name='unapprovedActivities' options={{ title: "Неподтвержденные заявки" }} />
             <Drawer.Screen name='lastActivities' options={{ title: "Последние заявки" }} />
-            {/* <Drawer.Screen name={`userSchedule/`} options={{ title: "" }} /> */}
-            {
-                userList.map((user) =>
-                    <Drawer.Screen name={`userSchedule/${user?._id}`} options={{ title: "" }} />)
-            }
         </Drawer>
     )
 }
