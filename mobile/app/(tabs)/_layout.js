@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { Drawer } from 'expo-router/drawer'
 import { Button, Divider, Text } from '@ui-kitten/components';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { clearUser, readUser } from '../../utils/userStorage';
 import { Link } from 'expo-router';
@@ -28,10 +28,26 @@ const Layout = () => {
 
     return (
         <Drawer
+            screenOptions={{
+                headerStyle: {
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+
+                    elevation: 5,
+                }
+            }}
             drawerContent={(props) => {
                 return (
                     <View style={{ justifyContent: "space-between", flex: 1 }}>
                         <DrawerContentScrollView {...props}>
+                            <View style={{ padding: 20 }}>
+                                <Image source={require('../../assets/horse.png')} style={{ width: 60, height: 60 }} />
+                            </View>
                             {
                                 user?.role?.name == 'admin' &&
                                 <>

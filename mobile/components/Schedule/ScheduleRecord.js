@@ -38,12 +38,13 @@ const styles = StyleSheet.create({
     },
     container: {
         width: '100%',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingVertical: 15,
     },
     timeSection: {
         flexBasis: '20%',
         flexShrink: 0,
-        padding: 15,
+        paddingHorizontal: 15,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         flex: 1,
         height: '100%',
-        padding: 15,
+        paddingHorizontal: 15,
         gap: 10,
     },
     rideType: {
@@ -75,8 +76,8 @@ const styles = StyleSheet.create({
     bottomDivider: {
         width: '100%',
         alignSelf: 'stretch',
-        height: 2,
-        backgroundColor: dividerDarkColor
+        height: 1,
+        backgroundColor: dividerDefaultColor
     }
 });
 
