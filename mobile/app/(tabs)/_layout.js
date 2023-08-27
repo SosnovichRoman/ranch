@@ -85,7 +85,7 @@ const Layout = () => {
                             <Divider />
 
                         </DrawerContentScrollView>
-                        <Button onPress={() => accountExit(props)}>
+                        <Button onPress={() => accountExit(props)} style={{margin: 20}}>
                             Выйти
                         </Button>
                     </View>)
