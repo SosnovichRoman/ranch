@@ -13,7 +13,9 @@ const StackLayout = () => {
         <ApplicationProvider {...eva} theme={eva.light} customMapping={mapping} >
             <Stack>
                 <Stack.Screen name='(tabs)' options={{headerShown: false}} />
-                <Stack.Screen name='login' />
+                <Stack.Screen name='login' options={{title: 'Вход в аккаунт'}} />
+                <Stack.Screen name='loading' options={{headerShown: false}} />
+                <Stack.Screen name='index' options={{headerShown: false}} />
             </Stack>
             <Toast />
         </ApplicationProvider>
