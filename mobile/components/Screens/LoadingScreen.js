@@ -1,6 +1,6 @@
 import { View, Text, Image, SafeAreaView } from 'react-native'
 import { readUser } from "../../utils/userStorage"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import React from 'react'
 import { useRouter } from "expo-router"
 
