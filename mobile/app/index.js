@@ -3,7 +3,7 @@ import 'react-native-url-polyfill/auto';
 
 const Home = () => {
     return (
-        <Redirect href="/login" />
+        <Redirect href="/loading" />
     )
 }
 

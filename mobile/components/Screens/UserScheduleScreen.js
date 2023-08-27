@@ -3,7 +3,7 @@ import { View, SafeAreaView } from "react-native"
 import client from "../../components/SanityClient/client";
 import { userQuery } from "../../utils/data";
 import ScheduleTabs from "../../components/Schedule/ScheduleTabs";
-import { useLocalSearchParams, useNavigation, useSearchParams } from "expo-router";
+import { useNavigation, useSearchParams } from "expo-router";
 import { Text } from "@ui-kitten/components";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { scheduleQuery } from "../../utils/data";
@@ -14,8 +14,7 @@ const UserScheduleScreen = () => {
     const userId = useSearchParams()?.id;
     const [schedule, setSchedule] = useState();
     const [fetchingError, setFetchingError] = useState(false);
-    const [title, setTitle] = useState('');
-    useNavigation().setOptions({ title: title });
+    const navigator = useNavigation();
     const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
@@ -25,7 +24,7 @@ const UserScheduleScreen = () => {
     const fetchSchedule = async () => {
         try {
             const user = await client.fetch(userQuery(userId));
-            setTitle('Расписание ' + user?.name)
+            navigator.setOptions({ title: 'Расписание ' + user?.name });
             if (user) setSchedule(await client.fetch(scheduleQuery(user?._id)));
 
         } catch (error) {

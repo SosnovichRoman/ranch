@@ -1,19 +1,17 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native"
 import client from "../../components/SanityClient/client"
 import { loginQuery } from "../../utils/data"
 import { Button, Input, Text } from "@ui-kitten/components"
 import { Toast } from "react-native-toast-message/lib/src/Toast"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Link, Redirect, useRouter } from "expo-router"
-import { readUser } from "../../utils/userStorage"
+import { useRouter } from "expo-router"
 
 const LoginScreen = () => {
 
     const router = useRouter();
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [user, setUser] = useState()
 
     const submitHandler = () => {
         if (login == '' || password == '') {
@@ -31,7 +29,6 @@ const LoginScreen = () => {
                         type: 'error',
                         text1: 'Не удалось войти',
                     })
-                    console.log(data);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -51,7 +48,7 @@ const LoginScreen = () => {
                 type: 'success',
                 text1: 'Успешный вход',
             })
-            router.push(`userSchedule/${user._id}`)
+            router.replace({ pathname: 'userSchedule', params: { id: value?._id } })
         } catch (e) {
             console.log(e)
             Toast.show({
@@ -61,17 +58,6 @@ const LoginScreen = () => {
             })
         }
     };
-
-    useEffect(() => {
-        readUserData();
-    }, [])
-
-    const readUserData = async () => {
-        const user = await readUser();
-        setUser(user);
-    }
-
-    if (user) return (<Redirect href={{ pathname: 'userSchedule', params: { id: user?._id } }} />)
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>

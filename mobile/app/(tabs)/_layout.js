@@ -23,7 +23,7 @@ const Layout = () => {
 
     const accountExit = (props) => {
         clearUser();
-        props.navigation.navigate("/login")
+        props.navigation.navigate("login")
     }
 
     return (
@@ -40,7 +40,7 @@ const Layout = () => {
                                     </TouchableOpacity>
                                     <Divider />
                                     <TouchableOpacity style={styles.drawerItem}>
-                                        <Text category='s1'><Link href={`lastActivities`}>Последние заявки</Link></Text>
+                                        <Text category='s1'><Link href={`/lastActivities`}>Последние заявки</Link></Text>
                                     </TouchableOpacity>
                                     <Divider />
                                     {/* <TouchableOpacity style={styles.drawerItem}>

@@ -18,9 +18,8 @@ export const readUser = async () => {
 
 export const clearUser = async () => {
   try {
-    await AsyncStorage.setItem(
+    await AsyncStorage.removeItem(
       'user',
-      null
     )
   } catch (e) {
     console.log(e);
