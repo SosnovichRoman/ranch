@@ -1,7 +1,6 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import Service from './Service'
-import Order from '../Order/Order'
 
 const Home = () => {
 
@@ -58,7 +57,7 @@ const Home = () => {
             <section className=' bg-grey-noise'>
                 <div className='__container py-20'>
                     <h2 className='heading-2'>Наши услуги</h2>
-                    <div className='mt-10 grid grid-cols-4 gap-[30px]'>
+                    <div className='mt-10 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-[30px] '>
                         {services.map((service) => <Service service={service} key={service?.id} />)}
                     </div>
                 </div>
@@ -66,7 +65,7 @@ const Home = () => {
             <section>
                 <div className='__container py-20'>
                     <h2 className='heading-2'>Пару слов о нас</h2>
-                    <div className='grid grid-cols-2 gap-20 mt-10'>
+                    <div className='grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-10'>
                         <div className='relative h-[400px]'>
                             <img src='img/home/about/01.png' className='relative z-10 h-full w-full object-cover shadow-card-shadow' />
                             <div className='absolute inset-0 rotate-[-5deg] bg-primary'></div>
@@ -81,7 +80,7 @@ const Home = () => {
                             </p>
                         </div>
                     </div>
-                    <div className='grid grid-cols-2 gap-20 mt-20'>
+                    <div className='grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-20'>
                         <div className=''>
                             <h3 className='heading-3'>С заботой о каждом</h3>
                             <p className='default-text text-unactive mt-8'>
@@ -100,7 +99,7 @@ const Home = () => {
             <section className='bg-grey-noise'>
                 <div className='__container py-20'>
                     <h2 className='heading-2'>Как добраться</h2>
-                    <div className='grid grid-cols-2 gap-20 mt-10'>
+                    <div className='grid lg:grid-cols-2 gap-x-20 gap-y-10 mt-10'>
                         <div className='space-y-5'>
                             <h3 className='heading-3'>На автомобиле</h3>
                             <div className='default-text text-unactive'>
@@ -120,15 +119,10 @@ const Home = () => {
                                 Минск (Комаровский рынок)-Юзуфово
                             </p>
                         </div>
-                        <img src='img/home/map.png' className='h-[550px] shadow-card-shadow' />
+                        <img src='img/home/map.png' className='h-[550px] shadow-card-shadow w-full object-cover' />
                     </div>
                 </div>
             </section>
-            {/* <section className=''>
-                <div className='__container'>
-                    <Order />
-                </div>
-            </section> */}
         </main>
     )
 }

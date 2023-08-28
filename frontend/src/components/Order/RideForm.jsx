@@ -121,8 +121,8 @@ const RideForm = ({ handleCloseModal }) => {
     return (
         <ConfigProvider locale={locale}>
             <form onSubmit={(e) => handleSubmit(e)}>
-                <div className='pt-10 gap-y-8 flex flex-col px-10'>
-                    <div className='grid grid-cols-2 gap-20'>
+                <div className='pt-10 gap-y-8 flex flex-col md:px-10 px-5'>
+                    <div className='grid md:grid-cols-2 gap-x-20 gap-y-8'>
                         <label className=' description-text'>
                             ФИО
                             <input className='input w-full mt-2' type='text' placeholder='Введите ФИО' value={fio} onChange={(e) => setFio(e.target.value)} />
@@ -132,13 +132,13 @@ const RideForm = ({ handleCloseModal }) => {
                             <input className='input w-full mt-2' type='tel' placeholder='+375 (29) 111-22-33' value={phone} onChange={(e) => setPhone(e.target.value)} />
                         </label>
                     </div>
-                    <div className='grid grid-cols-2 gap-20'>
+                    <div className='grid md:grid-cols-2 gap-x-20 gap-y-8'>
                         <label className=' description-text'>
                             Количество человек
                             <input className='input w-full mt-2' type='text' placeholder='Введите количество' value={count} onChange={(e) => setCount(e.target.value)} />
                         </label>
                     </div>
-                    <div className='grid grid-cols-2 gap-20'>
+                    <div className='grid md:grid-cols-2 gap-x-20 gap-y-8'>
                         <label className=' description-text'>
                             Формат поездки
                             <Select
@@ -161,7 +161,7 @@ const RideForm = ({ handleCloseModal }) => {
                             />
                         </label>
                     </div>
-                    <div className='grid grid-cols-2 gap-20'>
+                    <div className='grid md:grid-cols-2 gap-x-20 gap-y-8'>
                         <label className='description-text'>
                             Время начала занятия
                             <Select

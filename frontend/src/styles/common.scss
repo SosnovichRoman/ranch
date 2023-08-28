@@ -32,7 +32,8 @@ body {
 }
 
 .heading-1 {
-    font-size: 72px;
+    @include adaptiveValue("font-size", 72, 40);
+    // font-size: 72px;
     font-family: Montserrat;
     font-style: normal;
     font-weight: 800;
@@ -40,7 +41,7 @@ body {
 }
 
 .heading-2 {
-    font-size: 40px;
+    @include adaptiveValue("font-size", 40, 28);
     font-family: Montserrat;
     font-style: normal;
     font-weight: 700;
@@ -48,7 +49,7 @@ body {
 }
 
 .heading-3 {
-    font-size: 28px;
+    @include adaptiveValue("font-size", 28, 20);
     font-family: Montserrat;
     font-style: normal;
     font-weight: 600;
