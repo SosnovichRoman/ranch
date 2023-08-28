@@ -5,6 +5,11 @@
         "buildType": "apk"
       }
     },
+    "previewios": {
+      "ios": {
+        "simulator": true
+      }
+    },
     "preview2": {
       "android": {
         "gradleCommand": ":app:assembleRelease"

@@ -20,6 +20,9 @@
     },
     "android": {
       "package": "com.sosnovichroman.mobile"
+    },
+    "ios": {
+      "bundleIdentifier": "com.sosnovichroman.butsevichi"
     }
   }
 }
