@@ -1,4 +1,5 @@
-@use "sass:math";
+@use 'sass:math';
+@import url(https://fonts.googleapis.com/css?family=Montserrat:regular,500,600,700,800,900);
 
 // Минимальная ширина страницы
 $minWidth: 320;
@@ -14,108 +15,105 @@ $containerWidth: $maxWidthContainer + $containerPadding + $containerPadding;
 @import '../templates/mixins';
 @import '../templates/header.scss';
 
-$primaryColor: #ACD25F;
+$primaryColor: #acd25f;
 $inputColor: #999;
 
-
-[class*=__container] {
-    max-width: $containerWidth + px;
-    margin: 0 auto;
-    padding-right: $containerPadding + px;
-    ;
-    padding-left: $containerPadding + px;
-    ;
+[class*='__container'] {
+	max-width: $containerWidth + px;
+	margin: 0 auto;
+	padding-right: $containerPadding + px;
+	padding-left: $containerPadding + px;
 }
 
 body {
-    font-family: 'Montserrat';
+	font-family: 'Montserrat';
 }
 
 .heading-1 {
-    @include adaptiveValue("font-size", 72, 40);
-    // font-size: 72px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 100%;
+	@include adaptiveValue('font-size', 72, 40);
+	// font-size: 72px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 800;
+	line-height: 100%;
 }
 
 .heading-2 {
-    @include adaptiveValue("font-size", 40, 28);
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 120%;
+	@include adaptiveValue('font-size', 40, 28);
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 700;
+	line-height: 120%;
 }
 
 .heading-3 {
-    @include adaptiveValue("font-size", 28, 20);
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 120%;
+	@include adaptiveValue('font-size', 28, 20);
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 120%;
 }
 
 .heading-4 {
-    font-size: 20px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 125%;
+	font-size: 20px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 125%;
 }
 
 .default-text {
-    font-size: 20px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 130%;
+	font-size: 20px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 130%;
 }
 
 .description-text {
-    font-size: 16px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 125%;
+	font-size: 16px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 125%;
 }
 
 .button-green {
-    padding: 1rem 2rem;
-    display: inline-flex;
-    font-size: 16px;
-    font-family: Montserrat;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    background-color: $primaryColor;
-    border-radius: 999px;
-    color: white;
+	padding: 1rem 2rem;
+	display: inline-flex;
+	font-size: 16px;
+	font-family: Montserrat;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	background-color: $primaryColor;
+	border-radius: 999px;
+	color: white;
 }
 
-.input{
-    display: flex;
-    padding: 10px 20px;
-    border: 2px solid $inputColor;
-    border-radius: 8px;
-    // font-weight: 500;
+.input {
+	display: flex;
+	padding: 10px 20px;
+	border: 2px solid $inputColor;
+	border-radius: 8px;
+	// font-weight: 500;
 
-    &::placeholder{
-        color: $inputColor;
-        // font-weight: 400;
-    }
-    &:focus{
-        border: 2px solid black;
-    }
-    &:disabled{
-        background-color: #eeeeee;
-    }
+	&::placeholder {
+		color: $inputColor;
+		// font-weight: 400;
+	}
+	&:focus {
+		border: 2px solid black;
+	}
+	&:disabled {
+		background-color: #eeeeee;
+	}
 }
 
-option{
-    //background-color: #eeeeee;
-    font-weight: 500;
-    &:disabled{
-        font-weight: 400;
-    }
+option {
+	//background-color: #eeeeee;
+	font-weight: 500;
+	&:disabled {
+		font-weight: 400;
+	}
 }

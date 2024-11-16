@@ -13,6 +13,7 @@
     "@chakra-ui/select": "^2.0.19",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@tanstack/react-query": "^5.59.20",
     "antd": "^5.6.4",
     "autoprefixer": "^10.4.14",
     "eslint": "8.44.0",
@@ -23,6 +24,7 @@
     "postcss": "^8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.53.2",
     "sass": "^1.63.6",
     "tailwindcss": "3.3.2"
   }
