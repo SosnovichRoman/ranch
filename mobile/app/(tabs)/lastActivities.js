@@ -1,10 +1,7 @@
-import LastActivitiesScreen from "../../components/Screens/LastActivitiesScreen";
+import LastActivitiesScreen from '../../components/Screens/LastActivitiesScreen'
 
 const lastActivites = () => {
-
-    return (
-        <LastActivitiesScreen />
-    )
+	return <LastActivitiesScreen />
 }
 
 export default lastActivites
