@@ -14,8 +14,8 @@
 + Design: Figma
 
 ## Скриншоты
-1. Каталог товаров
-<img src="/github-images/catalog.png" width="60%" />
+1. Создание заявки на сайте усадьбы
+<img src="/github-images/site.png" width="60%" />
 
-2. Корзина
-<img src="/github-images/cart.png" width="60%" />
+2. Экран расписания инструктора и экран редактирования/просмотра занятия
+<img src="/github-images/mobile.png" width="60%" />
