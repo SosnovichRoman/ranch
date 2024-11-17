@@ -15,4 +15,7 @@
 
 ## Скриншоты
 1. Создание заявки на сайте усадьбы
-<img src="/github-images/site.png" width="80%" />
+<img src="/github-images/site.png" width="60%" />
+
+2. Экран расписания инструктора и экран редактирования/просмотра занятия
+<img src="/github-images/mobile.png" width="60%" />
