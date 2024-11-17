@@ -86,12 +86,7 @@ export const scheduleQuery = (userId) => {
 }
 
 export const rideActivityQuery = (id) => {
-	const query = `*[_type == 'rideActivity' && _id == '${id}'][0]{
-                        ...,
-                        rideType->,
-                        duration->,
-                        instructors[]->
-                    }`
+	const query = `*[_type == 'rideActivity' && _id == '${id}'][0]`
 	return query
 }
 

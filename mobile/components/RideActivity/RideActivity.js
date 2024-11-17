@@ -12,20 +12,12 @@ import {
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import useRideActivity from '../../hooks/useRideActivity'
-import useRideSettings from '../../hooks/useRideSettings'
+import useRideActivityForm from '../../hooks/useRideActivityForm'
 
 const RideActivity = () => {
 	const params = useLocalSearchParams()
 	const [fetchingError, setFetchingError] = useState(false)
-	// const [rideActivity, setRideActivity] = useState()
-	const [rideTypesList, setRideTypesList] = useState([])
-	const [instructorsList, setInstructorsList] = useState([])
-	const [rideDurationsList, setRideDurationsList] = useState([])
 
-	const [fio, setFio] = useState('')
-	const [phone, setPhone] = useState('')
-	const [count, setCount] = useState('')
 	const [selectedIndexRideType, setSelectedIndexRideType] = useState(
 		new IndexPath(0)
 	)
@@ -33,52 +25,29 @@ const RideActivity = () => {
 		new IndexPath(0)
 	)
 	const [date, setDate] = useState(new Date())
-	const [startTime, setStartTime] = useState('')
-	const [endTime, setEndTime] = useState('')
 	const [approved, setApproved] = useState(false)
 	const [selectedIndexInstructor, setSelectedIndexInstructor] = useState([
 		new IndexPath(0),
 	])
 
 	// -----------------------------------------------------------------------------------------------------
-	const { data: rideActivity, status: rideActivityStatus } = useRideActivity(
+
+	const { rideActivityForm, isLoading, rideSettings } = useRideActivityForm(
 		params.id
 	)
-	const { data: rideSettings } = useRideSettings()
-	const [form, setForm] = useState(rideActivity)
 
-	console.log('rideacrt', rideActivity)
-	console.log(form)
+	const [form, setForm] = useState(rideActivityForm)
 
 	useEffect(() => {
-		console.log(rideActivityStatus)
-		if (rideActivityStatus === 'success') {
-			console.log('suc')
-			setForm(rideActivity)
+		if (!isLoading) {
+			setForm(rideActivityForm)
+			console.log(rideActivityForm?.rideTypeIndex)
+			setSelectedIndexRideType(new IndexPath(rideActivityForm?.rideTypeIndex))
+			setSelectedIndexRideDuration(
+				new IndexPath(rideActivityForm?.durationIndex)
+			)
 		}
-	}, [rideActivityStatus, rideActivity])
-
-	// const fetchData = async () => {
-	// 	try {
-	// 		// setRideTypesList(await client.fetch(rideTypesQuery))
-	// 		setRideDurationsList(await client.fetch(rideDurationsListQuery))
-	// 		setInstructorsList(await client.fetch(instructorsQuery))
-	// 		const fetchedRideActivity = await client.fetch(
-	// 			rideActivityQuery(params.id)
-	// 		)
-	// 		if (!fetchedRideActivity) setFetchingError(true)
-	// 		else setRideActivity(fetchedRideActivity)
-	// 	} catch (error) {
-	// 		setFetchingError(true)
-	// 	}
-	// }
-
-	//call when rideActivity fetched
-	// useEffect(() => {
-	// 	if (rideActivity != {} && rideActivity) {
-	// 		setFields(rideActivity)
-	// 	}
-	// }, [rideActivity])
+	}, [isLoading])
 
 	// const setFields = (data) => {
 	// 	setFio(data?.clientName)
@@ -169,6 +138,13 @@ const RideActivity = () => {
 		console.log(rideSettings?.rideTypes[selectedIndexRideType])
 		console.log(rideSettings?.durations[selectedIndexRideDuration])
 	}
+
+	if (isLoading)
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<Text>Загрузка...</Text>
+			</View>
+		)
 
 	if (fetchingError)
 		return (

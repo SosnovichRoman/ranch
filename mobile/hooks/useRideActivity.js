@@ -8,14 +8,6 @@ export default function useRideActivity(id) {
 			const rideActivity = await rideActivityService.getById(id)
 			return rideActivity
 		},
-		initialData: {
-			clientName: '',
-			clientPhone: '',
-			personCount: '',
-			startTime: '',
-			endTime: '',
-			isApproved: false,
-		},
 	})
 
 	return rideActivity
