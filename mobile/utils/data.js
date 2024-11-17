@@ -2,6 +2,14 @@ import dayjs from 'dayjs'
 
 export const rideSettingsQuery = `*[_type == "rideSettings"][0]`
 
+export const rideActivityQuery = (id) => {
+	const query = `*[_type == 'rideActivity' && _id == '${id}'][0]{
+    ...,
+    instructors[]->
+    }`
+	return query
+}
+
 //----------------------------------------------------------------------
 
 export const rideTypesQuery = `*[_type == "rideTypes"] | order(_createdAt asc)`
@@ -82,11 +90,6 @@ export const scheduleQuery = (userId) => {
                         rideType->,
                         duration->,
                     }`
-	return query
-}
-
-export const rideActivityQuery = (id) => {
-	const query = `*[_type == 'rideActivity' && _id == '${id}'][0]`
 	return query
 }
 

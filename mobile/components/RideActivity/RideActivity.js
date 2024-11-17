@@ -32,9 +32,8 @@ const RideActivity = () => {
 
 	// -----------------------------------------------------------------------------------------------------
 
-	const { rideActivityForm, isLoading, rideSettings } = useRideActivityForm(
-		params.id
-	)
+	const { rideActivityForm, isLoading, rideSettings, rideInstructors } =
+		useRideActivityForm(params.id)
 
 	const [form, setForm] = useState(rideActivityForm)
 
@@ -46,6 +45,7 @@ const RideActivity = () => {
 			setSelectedIndexRideDuration(
 				new IndexPath(rideActivityForm?.durationIndex)
 			)
+			setSelectedIndexInstructor(rideActivityForm?.instructorIndex)
 		}
 	}, [isLoading])
 
@@ -256,17 +256,17 @@ const RideActivity = () => {
 				</View>
 				<View>
 					<Text>Инструктор</Text>
-					{/* <Select
+					<Select
 						style={styles.input}
 						multiSelect={true}
 						selectedIndex={selectedIndexInstructor}
 						onSelect={(index) => setSelectedIndexInstructor(index)}
 						value={'Назначенные инструкторы'}
 					>
-						{instructorsList?.map((instructor) => (
+						{rideInstructors?.map((instructor) => (
 							<SelectItem title={instructor?.name} key={instructor?._id} />
 						))}
-					</Select> */}
+					</Select>
 				</View>
 				{/* There is bug with padding bottom */}
 				{/* <View style={{ height: 10 }}></View> */}
