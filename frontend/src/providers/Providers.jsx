@@ -1,5 +1,5 @@
 'use client'
-import { chakraTheme } from '@/theme/chakraTheme'
+import { chakraTheme } from '@/theme/ChakraTheme'
 import { ChakraProvider } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
