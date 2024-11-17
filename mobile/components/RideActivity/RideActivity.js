@@ -9,14 +9,16 @@ import {
 	Text,
 	Toggle,
 } from '@ui-kitten/components'
+import dayjs from 'dayjs'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
+import uuid from 'react-native-uuid'
 import useRideActivityForm from '../../hooks/useRideActivityForm'
+import { useUpdateRideActivity } from '../../hooks/useUpdateRideActivity'
 
 const RideActivity = () => {
 	const params = useLocalSearchParams()
-	const [fetchingError, setFetchingError] = useState(false)
 
 	const [selectedIndexRideType, setSelectedIndexRideType] = useState(
 		new IndexPath(0)
@@ -25,7 +27,6 @@ const RideActivity = () => {
 		new IndexPath(0)
 	)
 	const [date, setDate] = useState(new Date())
-	const [approved, setApproved] = useState(false)
 	const [selectedIndexInstructor, setSelectedIndexInstructor] = useState([
 		new IndexPath(0),
 	])
@@ -34,13 +35,12 @@ const RideActivity = () => {
 
 	const { rideActivityForm, isLoading, rideSettings, rideInstructors } =
 		useRideActivityForm(params.id)
-
+	const { mutate, isPending } = useUpdateRideActivity()
 	const [form, setForm] = useState(rideActivityForm)
 
 	useEffect(() => {
 		if (!isLoading) {
 			setForm(rideActivityForm)
-			console.log(rideActivityForm?.rideTypeIndex)
 			setSelectedIndexRideType(new IndexPath(rideActivityForm?.rideTypeIndex))
 			setSelectedIndexRideDuration(
 				new IndexPath(rideActivityForm?.durationIndex)
@@ -49,94 +49,32 @@ const RideActivity = () => {
 		}
 	}, [isLoading])
 
-	// const setFields = (data) => {
-	// 	setFio(data?.clientName)
-	// 	setPhone(data?.clientPhone)
-	// 	setSelectedIndexRideType(
-	// 		new IndexPath(
-	// 			rideTypesList.findIndex(
-	// 				(rideType) => rideType._id == data?.rideType?._id
-	// 			)
-	// 		)
-	// 	)
-	// 	setCount(data?.personCount.toString())
-	// 	setDate(new Date(data?.date))
-	// 	setSelectedIndexRideType(
-	// 		new IndexPath(
-	// 			rideDurationsList.findIndex(
-	// 				(rideDuration) => rideDuration._id == data?.duration?._id
-	// 			)
-	// 		)
-	// 	)
-	// 	setStartTime(data?.startTime.toString())
-	// 	setEndTime(data?.endTime.toString())
-	// 	setApproved(data?.approved)
-	// 	setSelectedIndexInstructor(
-	// 		instructorsList
-	// 			?.map((instructor, index) => {
-	// 				if (
-	// 					data?.instructors
-	// 						?.map((item) => item?._id)
-	// 						?.includes(instructor?._id)
-	// 				)
-	// 					return new IndexPath(index)
-	// 			})
-	// 			.filter((item) => item != undefined)
-	// 	)
-	// }
-
-	// const saveChanges = () => {
-	// 	// console.log(instructorsList.filter((val, index) => selectedIndexInstructor.map((selectedIndex) => selectedIndex.row).includes(index)))
-	// 	const instructors = instructorsList
-	// 		.filter((val, index) =>
-	// 			selectedIndexInstructor
-	// 				.map((selectedIndex) => selectedIndex.row)
-	// 				.includes(index)
-	// 		)
-	// 		.map((val) => {
-	// 			return {
-	// 				_ref: val?._id,
-	// 				_key: uuid.v4(),
-	// 			}
-	// 		})
-
-	// 	client
-	// 		.patch(rideActivity?._id) // Document ID to patch
-	// 		.set({
-	// 			clientName: fio,
-	// 			clientPhone: phone,
-	// 			personCount: Number(count),
-	// 			rideType: {
-	// 				_ref: rideTypesList[selectedIndexRideType.row]?._id,
-	// 			},
-	// 			date: dayjs(date).format('YYYY-MM-DD'),
-	// 			startTime: Number(startTime),
-	// 			endTime: Number(endTime),
-	// 			duration: {
-	// 				_ref: rideDurationsList[selectedIndexRideDuration.row]?._id,
-	// 			},
-	// 			approved: approved,
-	// 			instructors: instructors,
-	// 		}) // Shallow merge
-	// 		.commit() // Perform the patch and return a promise
-	// 		.then((updatedDoc) => {
-	// 			Toast.show({
-	// 				type: 'success',
-	// 				text1: 'Сохранено',
-	// 			})
-	// 		})
-	// 		.catch((err) => {
-	// 			Toast.show({
-	// 				type: 'error',
-	// 				text1: 'Ошибка при сохранении',
-	// 			})
-	// 		})
-	// }
-
 	const submit = () => {
-		console.log(form)
-		console.log(rideSettings?.rideTypes[selectedIndexRideType])
-		console.log(rideSettings?.durations[selectedIndexRideDuration])
+		const instructors = rideInstructors
+			.filter((val, index) =>
+				selectedIndexInstructor
+					.map((selectedIndex) => selectedIndex.row)
+					.includes(index)
+			)
+			.map((val) => {
+				return {
+					_ref: val?._id,
+					_key: uuid.v4(),
+				}
+			})
+		const doc = {
+			clientName: form.clientName,
+			clientPhone: form.clientPhone,
+			personCount: Number(form?.personCount),
+			startTime: Number(form?.startTime),
+			endTime: Number(form?.endTime),
+			date: dayjs(form?.date).format('YYYY-MM-DD'),
+			approved: form.approved,
+			rideType: rideSettings?.rideTypes[selectedIndexRideType.row].name,
+			duration: rideSettings?.durations[selectedIndexRideDuration.row].duration,
+			instructors: instructors,
+		}
+		mutate({ id: params.id, doc })
 	}
 
 	if (isLoading)
@@ -145,13 +83,13 @@ const RideActivity = () => {
 				<Text>Загрузка...</Text>
 			</View>
 		)
-
-	if (fetchingError)
-		return (
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-				<Text>Не удалось загрузить информацию</Text>
-			</View>
-		)
+	console.log(form)
+	// if (fetchingError)
+	// 	return (
+	// 		<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+	// 			<Text>Не удалось загрузить информацию</Text>
+	// 		</View>
+	// 	)
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
@@ -250,8 +188,8 @@ const RideActivity = () => {
 				<View style={{ flexDirection: 'row', gap: 30, alignItems: 'center' }}>
 					<Text>Подтверждено</Text>
 					<Toggle
-						checked={approved}
-						onChange={(val) => setApproved(val)}
+						checked={form.approved}
+						onChange={(val) => setForm({ ...form, approved: val })}
 					></Toggle>
 				</View>
 				<View>
